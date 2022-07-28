@@ -1,0 +1,82 @@
+
+
+.voting .voting-item {
+  display: flex;
+  align-items: center;
+}
+
+.voting .voting-item .voting-check {
+  padding: 5px;
+}
+
+.voting .voting-item .voting-body {
+  padding: 5px;
+}
+
+.voting-title {
+  max-width: 150px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: calc( 19 / 14 * 100%);
+
+}
+.voting .voting-item .voting-body {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: calc( 19 / 14 * 100%);
+  max-width: 300px;
+}
+
+.voting .voting-item .voting-body .voting-progress-base {
+  width: 160px;
+  height: 4px;
+  background: lightgray;
+  border-radius: 3px;
+  
+}
+
+.voting-progress {
+  width: 67%;
+}
+
+.voting .voting-item .voting-body .voting-progress-base .voting-progress {
+  height: 100%;
+  background: #fd7349;
+  border-radius: 3px;
+}
+
+.voting .voting-item .voting-persent {
+  padding: 5px;
+}
+
+.voting .voting-item .voting-piople {
+  padding: 5px;
+}
+
+.voting .voting-summ {
+  padding: 5px;
+}
+
+.voting .voting-comment {
+  height: 60px;
+  padding: 7px;
+  width: 200px;
+}
+
+@media (min-width: 490px) {
+  .voting .voting-item .voting-body .voting-progress-base {
+    width: 300px;
+    height: 6px;
+  }
+  .voting .voting-comment {
+    width: 300px;
+  }
+  .voting-title {
+    width: 300px;
+    max-width: 300px;
+  }
+}
+
+.content-item-key {
+  font-weight: 600;
+}

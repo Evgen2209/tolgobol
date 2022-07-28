@@ -1,0 +1,71 @@
+.documents {
+  padding: 5px;
+}
+
+.documents a {
+  display: block;
+  font-style: normal;
+  font-size: 16px;
+  line-height: calc( 15 / 16 * 100%);
+  padding-top: 15px;
+}
+
+.collect_docements {
+  margin-left: 5px;
+}
+.filter {
+  padding: 3px 5px 3px 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+}
+.block_filters {
+  padding-left: 2px;
+  display: none;
+}
+.show {
+  display: block;
+}
+.table_cel {
+  padding-right: 3px;
+  
+}
+.sub_table {
+  cursor: pointer;
+}
+@media (max-width: 360px) {
+  .table_cel {
+    font-size: 14px;
+  }
+}
+
+.flex_tr {
+  display: flex;
+  justify-content: space-between;
+  max-width: 700px;
+}
+.table_sub_cel {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.sub_table_block {
+  display: none;
+}
+.show {
+  display: block;
+}
+
+.collect_options {
+  display: flex;
+  justify-content: space-between;
+}
+.insert_collect_btn {
+  background-color: white;
+  padding: 5px 8px;
+  border-radius: 15px;
+  border: 1px solid #3AA6D0;
+  box-shadow: rgba(163, 163, 163, 0.8) 0px 0px 15px 2px;
+}
+.insert_collect_btn:hover {
+  background-color: #93cfe7;
+}
