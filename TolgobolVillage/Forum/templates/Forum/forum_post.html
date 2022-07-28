@@ -1,0 +1,204 @@
+{% extends 'Forum/forum_base.html' %}
+
+{% load static %}
+
+{% block forum_css %}
+<link rel="stylesheet" href="{% static "css/forum_post.css"  %}">
+<link rel="stylesheet" href="{% static "css/upload.css"  %}">
+{% endblock %}
+
+{% block forum_content %}
+<a class="return" href="{% url 'forum' %}{{ section_id }}">
+  <div class="arrow_2">
+    <div></div>
+  </div>
+  <span>Назад</span>
+</a>
+<div class="message_area">
+  <div class="post_wrapper" id="post_wrapper" name="{{ post_id }}">
+    <div class="post post_none">
+      <h1 class="post_title">{{ post.title }}</h1>
+      <p class="post_text">{{ post.text }}</p>
+      <div class="post_files">
+        <span class="post_file">файл1</span>
+        <span class="post_file">файл2</span>
+      </div>
+      <div class="post_meta">
+        <div class="post_author">{{ post.author }}</div>
+        <div class="post_data">{{ post.date }}</div>
+      </div>
+    </div>
+    <div class="post_options">
+      {% if post.self %}
+      <a href="" class="btn_post_update">Редактировать</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if post.messages %}
+    {% for sms in post.messages %}
+      {% if sms.self %}
+        <div class="post_wrapper post_wrapper_self">
+          <div class="post post_self" id="{{ sms.id }}">
+
+            {% if sms.related_message %}
+            <div class="perent_wrapper" id="{{ sms.related_message.id }}">
+              <div class="parent_text">
+                {{ sms.related_message.text }}
+              </div>
+              <div class="parent_meta">
+                <div class="post_author">{{ sms.related_message.author }}</div>
+                <div class="post_data">{{ sms.related_message.date }}</div>
+              </div>
+            </div>
+            {% endif %}
+
+            <p class="post_text">{{ sms.text }}</p>
+            <div class="post_files">
+              <span class="post_file">файл1</span>
+              <span class="post_file">файл2</span>
+            </div>
+            <div class="post_meta" id='post_meta_self'>
+              <div class="post_author" name='{{ sms.author_id }}'>{{ sms.author }}</div>
+              {% if sms.date %}
+              <div class="post_data">{{ sms.date }}</div>
+              {% else %}
+              <div class="post_data">Изменен {{ sms.update_date }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="post_options post_options_self">
+            <div>
+              <a class="btn_message btn_message_update">Редактировать</a>
+            </div>
+            <div>
+              <a class="btn_message btn_message_delet">Удалить</a>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <div class="post_wrapper post_wrapper_none">
+          <div class="post post_none" id="{{ sms.id }}">
+
+            {% if sms.related_message %}
+            <div class="perent_wrapper" id="{{ sms.related_message.id }}">
+              <div class="parent_text">
+                {{ sms.related_message.text }}
+              </div>
+              <div class="parent_meta">
+                <div class="post_author">{{ sms.related_message.author }}</div>
+                <div class="post_data">{{ sms.related_message.date }}</div>
+              </div>
+            </div>
+            {% endif %}
+
+            <p class="post_text">{{ sms.text }}</p>
+            <div class="post_files">
+              <span class="post_file">файл1</span>
+              <span class="post_file">файл2</span>
+            </div>
+            <div class="post_meta" id='post_meta_self'>
+              <div class="post_author" name='{{ sms.author_id }}'>{{ sms.author }}</div>
+              {% if sms.date %}
+              <div class="post_data">{{ sms.date }}</div>
+              {% else %}
+              <div class="post_data">Изменен {{ sms.update_date }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="post_options post_options_none">
+            <a class="btn_message btn_message_answer" id="" name="{{ sms.id }}">Ответить</a>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  {% else %}
+  {% endif %}
+
+</div>
+
+    <div class="output_wrapper">
+      <div class="hide_panel">
+        <button class="hight_btn" id="hight_btn">Свернуть</button>
+      </div>
+      <div class="output_panel open_panel" id="output_panel">
+        {% comment %} <div class="respons_message parent_text">
+          <div class="perent_wrapper">
+            <div class="parent_text">
+              inventore quod aliquam similique blanditiis assumenda sequi eveniet id, qui voluptate ea corrupti expedita culpa cum sed!
+            </div>
+            <div class="parent_meta">
+              <div class="post_author">Автор</div>
+              <div class="post_data">Дата</div>
+            </div>
+          </div>
+          <a href="" class="delet_parent_sms">Открепить</a>
+        </div> {% endcomment %}
+        <div class="output_message_options">
+          <div>
+            {% comment %} <button class="btn_output">Прикрепить</button> {% endcomment %}
+
+
+
+            <div class="upload_block" >
+              <form enctype="multipart/form-data" method="POST" action="">
+                  {% csrf_token %}
+                  <div class="upload_form_wrapper">
+                    <div>
+        
+                      <label class="form-group">
+        
+                        <input name="file" type="file" class="main_input_file" id="fileupload" />
+                        <div class="btn_output upload_btn">Прикрепить</div>
+                      </label>
+        
+                    </div>
+        
+                    <div class="progres_wrapper">
+        
+                      {% comment %} <div class="progres_item">
+                        <input class="f_name" type="text" id="f_name" value="Файл не выбран." disabled />
+                        <div class="progres_base">
+                          <div class="progres_current" style="width: 0%"></div>
+                        </div>
+                      </div> {% endcomment %}
+        
+                    </div>
+        
+                    
+                  </div>
+        
+                  {% comment %} <div class="form-group">
+                      <input type="file" class="change_file_input form-control" id="fileupload" placeholder="">
+                      <div class="progres_base">
+                        <div class="progres_current" style="width: 77%">
+                        </div>
+                      </div>
+                  </div> {% endcomment %}
+              </form>
+            </div>
+
+
+
+
+
+          </div>
+          <div>
+            <button class="btn_output" id="send_message">Отправить</button>
+          </div>
+        </div>
+        <div class="input_text">
+          <textarea class="output_message" name="" id="" placeholder="Введите сообщение" ></textarea>
+        </div>
+      </div>
+    </div>
+
+
+
+
+{% endblock %}
+
+{% block forum_js %}
+<script src="{% static "/js/forum_post.js"  %}"></script>
+<script src="{% static "/js/upload_files.js"  %}"></script>
+{% endblock %}

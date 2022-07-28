@@ -1,0 +1,35 @@
+{% extends 'main/index.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static "styles/contact_styles.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "styles/contact_responsive.css" %}">
+
+<div class="fs_menu_overlay"></div>
+<div class="container contact_container">
+    <div class="row">
+        <div class="col-lg-4 get_in_touch_col">
+            <div class="get_in_touch_contents">
+                <br>
+                <p></p>
+                <form action="{% url 'register' %}" method="post">
+                    <div>
+                        {% csrf_token %}
+                        <div>{{ form.nonfield_errors }}</div>
+                    
+                        {% for f in form %}
+                            <input name={{ f.name }} class="input_name form-control" id="floatingPassword" placeholder="{{ f.label }}">
+                            <div>{{f.errors}}</div>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        <p>* Поля обязательные для заполнения</p>
+                        <button id="review_submit" type="submit" class="red_button message_submit_btn trans_400" value="Submit">Зарегестрироваться</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

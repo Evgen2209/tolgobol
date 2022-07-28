@@ -1,0 +1,61 @@
+.form-center {
+  margin: 30px 0px 30px 0px;
+}
+
+.linc-password {
+  margin: 10px;
+}
+
+
+.fio {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gender {
+  margin-left: 10px;
+}
+
+.gender label {
+  margin: 0px 5px 0px 5px;
+}
+
+.contract {
+  display: flex;
+  margin-left: 10px;
+}
+
+
+
+.auth-help {
+  margin-top: 10px;
+  padding-left: 10px;
+}
+.register_btn {
+  width: 150px;
+  text-align: center;
+}
+
+.error_text {
+  margin-left: 10px;
+  color: brown;
+}
+.success_text {
+  text-align: center;
+  font-size: 20px;
+  margin-top: 20px;
+  height: 200px;
+  color: green;
+}
+.error_block_center {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.feedback_adres {
+  color: rgb(71, 71, 250);
+  padding-left: 10px;
+  cursor: pointer;
+}
+.feedback_adres:hover {
+  color: blue;
+}

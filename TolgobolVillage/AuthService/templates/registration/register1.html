@@ -1,0 +1,22 @@
+{% extends 'registration/index.html' %}
+{% load static %}
+
+{% block title %}
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+<h1>Страница регистрации</h1>
+<form action="{% url 'register' %}" method="post">
+    {% csrf_token %}
+    <div>{{ form.nonfield_errors }}</div>
+
+    {% for f in form %}
+    <p><label for="{{fid_for_label }}">{{f.label}}: </label>{{f}}</p>
+    <div>{{f.errors}}</div>
+    {% endfor %}
+
+    <button type="submit">Зарегистрироваться</button>
+</form>
+
+{% endblock %}

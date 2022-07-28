@@ -1,0 +1,51 @@
+@import "_config.scss";
+// шаблон
+// %template {
+//    font-size: 5px;
+// }
+
+// миксин
+// @mixin fontz( $f ){
+//    font-size: $f;
+// }
+
+// .div {
+//    size: 100pz;
+//    @extend template;
+//    @include fontz(100px);
+// }
+
+@function rem( $px ) {
+   $result: ( $px / 16 ) + rem;
+   @return $result;
+}
+
+@function em( $px ) {
+   $result: ( $px / 16 ) + em;
+   @return $result;
+}
+
+@function rpc( $pxOne, $pxTwo ) {
+   $result: ( $pxOne / $pxTwo ) * 100%;
+   @return $result;
+}
+
+@mixin adaptiv( $property, $startSize, $minSize, $type ) {
+   $addSize: $startSize - $minSize;
+   @if $type==1 {
+      // Только если меньше контейнера
+      #{$property}: $startSize + px;
+      @media (max-width: #{$maxWidthContainer + px}) {
+         #{$property}: call( #{$minSize + px} + #{$addSize} * ( (100vw - 320px) /  #{maxWidthContainer - 320} ) );
+      }
+   } @else if $type==2 {
+      // Только если больше контейнера
+      #{$property}: $startSize + px;
+      @media (min-width: #{$maxWidthContainer + px}) {
+         #{$property}: call( #{$minSize + px} + #{$addSize} * ( (100vw - 320px) /  #{maxWidth - 320} ) );
+      }
+   } @else {
+      // Всегда
+      #{$property}: call( #{$minSize + px} + #{$addSize} * ( (100vw - 320px) /  #{maxWidth - 320} ) );
+   }
+}

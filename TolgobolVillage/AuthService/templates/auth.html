@@ -1,0 +1,102 @@
+{% extends 'MainService/base.html' %}
+
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static "css/tabs.css" %}">
+  <link rel="stylesheet" href="{% static "css/auth_body.css" %}">
+  <link rel="stylesheet" href="{% static "css/modal.css" %}">
+{% endblock %}
+
+{% block page %}
+  <div class="wrapper__page">
+    <section class="_container">
+      <div class="tabs">
+        <div class="tabs__nav">
+          <button class="tabs__btn tabs__btn_active" id='login'>Вход</button>
+          <button class="tabs__btn" id='registration'>Регистрация</button>
+        </div>
+        <div class="tabs__content">
+          <div class="tabs__pane tabs__pane_show">
+            <div class="form-wrapper">
+              <form action="" method="post" class="form-center" id='login_form' >
+                {% csrf_token %}
+                <input name={{ form.username.name }} class="input" id="" placeholder="Логин">
+                <input name={{ form.password.name }} class="input" id="" placeholder="Пароль">
+                <a href="" class="linc-password">Забыли пароль?</a>
+                <button id="login_btn" type="submit" class="button login_btn" href="{% url 'auth' %}?next={{ request.PATH_INFO }}">Авторизоваться</button>
+              </form>
+            </div>
+            {% if form.non_field_errors %}
+            <div class="error_block_center">
+            <p class="error_text">{{ form.non_field_errors }}</p>
+            </div>
+            {% endif %}
+          </div>
+          <div class="tabs__pane">
+            <div id="register_form" class="form-wrapper" >
+              <form action="{% url 'authservice' %}" method="post" class="form-center" id="qwerty">
+                {% csrf_token %}
+                <p>Добро пожаловать на страницу регистрации.</p>
+                <p>Все данные строго конфидициальны и хранятся в зашифрованном виде.</p>
+                <p>Если во вашему адресу уже кто то зарегистрировался, попроситу у него ссылку для приглашения.</p>
+                <div class="adress" id="adres">
+                  <div class="drop-list strit">
+                    <div onclick="drop_list(this)" class="drop-list-btn" id="strit_id">Улица*</div>
+                    <div id="drop-list-content" class="drop-list-content strit">
+                      {% for st in strits %}
+                        <a id ="{{ st.id }}" onclick="checkout_strit(this)">{{ st.strit_name }}</a>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="drop-list house">
+                    <div onclick="drop_list(this)" class="drop-list-btn" id="hous_id">Дом*</div>
+                    <div id="drop_list_content_house" class="drop-list-content house">
+                    </div>
+                  </div>                     
+                  <div class="drop-list kv">
+                    <div onclick="drop_list(this)" class="drop-list-btn" id="kv_id">Кв</div>
+                    <div id="drop_list_content_kv" class="drop-list-content house">
+                    </div>
+                  </div>                     
+                </div>
+                <a class='feedback_adres' id='feedback_adres'>Адреса нет в списке</a>
+                <div class="fio">
+                  <div>
+                    <input name={{ register_form.first_name.name }} required class="input" id="{{ register_form.first_name.name }}" placeholder="Имя*">
+                  </div>
+                  <input name={{ register_form.last_name.name }} required class="input" id="{{ register_form.last_name.name }}" placeholder="Фамилия">
+                  <input name={{ register_form.patronymic.name }} required class="input" id="{{ register_form.patronymic.name }}" placeholder="Отчество">
+                </div>
+                <div class="gender" id='{{ register_form.male.name }}' name='Мужчина'>
+                  <input type="radio" id="male_man" name="gender" value="Мужчина" class="voting-check gender_input" checked="checked"><label>Мужчина</label>
+                  <input type="radio" id="male_woman" name="gender" value="Женщина" class="voting-check gender_input"><label>Женщина</label>
+                </div>
+                <p class="auth-help">Логин и пароль должен состоять из латинских букв и цифр</p>
+                <input name={{ register_form.username.name }} class="input" id="{{ register_form.username.name }}" placeholder="Логин*">
+                <input name={{ register_form.password1.name }} class="input" id="{{ register_form.password1.name }}" placeholder="Пароль*">
+                <input name={{ register_form.password2.name }} class="input" id="{{ register_form.password2.name }}" placeholder="Подтверждение пароля*">
+                <input name={{ register_form.birthday.name }} class="input birthday" id="{{ register_form.birthday.name }}" placeholder="День рождения">
+                <input name={{ register_form.email.name }} class="input" id="{{ register_form.email.name }}" placeholder="Email">
+                <input name={{ register_form.telephon.name }} class="input" id="{{ register_form.telephon.name }}" placeholder="Телефон">
+                <p class="auth-help">Телефон необходим что бы в случае чаго староста мог с вами связаться</p>
+                <div class="contract">
+                  <input type="checkbox" name="" class="input" id="">
+                  <a>Соглашение</a>
+                </div>
+                <div id="register" type="submit" class="button register_btn">Регистрация</div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script src="{% static "js/auth.js" %}"></script>
+  <script src="{% static "js/tabs.js" %}"></script>
+  <script src="{% static "js/drop_list.js" %}"></script>
+  <script src="{% static "/js/collect.js"  %}"></script>
+{% endblock %}

@@ -1,0 +1,266 @@
+@import url("https://fonts.googleapis.com/css2?family=Elsie:wght@900&family=Manrope&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+:focus, :active {
+  outline: none;
+}
+
+a:focus, a:active {
+  outline: none;
+}
+
+nav, footer, header, aside {
+  display: block;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input, button, textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a, a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+  font-style: 400px;
+}
+
+.wrapper {
+  min-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+._container {
+  max-width: 1170px;
+  margin: 0px auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media (max-width: 380px) {
+  ._container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+.flex {
+  display: flex;
+}
+
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  display: block;
+  font-family: 'Marmelad';
+  font-style: normal;
+  font-size: 16px;
+  line-height: calc( 15 / 16 * 100%);
+  padding: 10px 12px 10px 12px;
+  border-radius: 24px;
+  background-color: white;
+  border: 1px solid #3AA6D0;
+  margin: 10px;
+}
+
+.button:hover {
+  background-color: #95e1ff;
+}
+
+.button:active {
+  background-color: #66cef7;
+}
+
+.checkbox-container {
+  display: block;
+}
+
+.input {
+  display: block;
+  border-radius: 24px;
+  margin: 10px;
+  border: 1px solid #25244942;
+  padding: 7px;
+}
+
+.textarea {
+  resize: none;
+  margin: 10px;
+}
+
+._ibg {
+  position: relative;
+}
+
+._ibg img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  object-fit: cover;
+}
+
+.drop-list-btn {
+  padding: 7px 10px 7px 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 24px;
+  border: 1px solid #25244942;
+  margin: 10px;
+  background-color: #fafafa;
+}
+
+.drop-list-btn:hover, .drop-list-btn:focus {
+  background-color: #e2f7fa;
+}
+
+.drop-list {
+  float: right;
+  position: relative;
+  display: inline-block;
+}
+
+.drop-list-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  width: 180px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  right: 0;
+  z-index: 1;
+  margin-right: 10px;
+  border-radius: 20px;
+}
+
+.drop-list-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.drop-list a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
+}
+
+.drop-list-btn::after {
+  content: "";
+  background-color: #337AB7;
+  width: 10px;
+  height: 3px;
+  display: block;
+  float: right;
+  border-radius: 6px 10px 10px 6px;
+  transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
+  z-index: -1;
+  transform: rotate(35deg);
+  float: right;
+  border-radius: 3px;
+  margin-top: 10px;
+  margin-right: -1px;
+}
+
+.drop-list-btn::before {
+  content: "";
+  background-color: #337AB7;
+  width: 10px;
+  height: 3px;
+  display: block;
+  float: right;
+  border-radius: 6px 10px 10px 6px;
+  transition: all 0.5s cubic-bezier(0.25, 1.7, 0.35, 0.8);
+  z-index: -1;
+  transform: rotate(-35deg);
+  float: right;
+  border-radius: 3px;
+  margin-top: 10px;
+  margin-left: -1px;
+}
+
+._open.drop-list-btn:before {
+  transform-origin: center center;
+  transform: rotate(35deg);
+}
+
+._open.drop-list-btn:after {
+  transform-origin: center center;
+  transform: rotate(-35deg);
+}
+
+.page {
+  flex: 1 1 auto;
+  background-color: #c6cafd6c;
+  padding-top: 120px;
+  padding-bottom: 10px;
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding-top: 75px;
+  }
+}
+
+

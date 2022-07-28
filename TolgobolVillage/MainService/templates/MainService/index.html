@@ -1,0 +1,82 @@
+{% extends 'MainService/base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "/css/main_body.css"  %}">
+<link rel="stylesheet" type="text/css" href="{% static "/css/upload.css"  %}">
+{% endblock %}
+
+{% block page %}
+{% comment %} <section class="page__main-block main-block">
+  <div class="main-block__container _container">
+    <div class="main-block__body">
+      <h1 class="main-block__title">Котеджный поселок Толгоболь</h1>
+    </div>
+  </div>
+  <div class="main-block__image _ibg">
+    <img src="{% static "images/index/village.jpg"  %}" alt="cover">
+  </div>
+</section> {% endcomment %}
+<section>
+  <div class="news _container">
+    <div class="news-title">
+      Новости
+    </div>
+    {% for item in news %}
+    <div class="appreciate__column">
+      <div class="appreciate__item item-appreciate">
+        <div class="time">{{ item.date }}</div>
+        <div class="item-appreciate__wrapper-title wrapper-title">
+          <h3 class="item-appreciate__title">{{ item.title }}</h3>
+        </div>
+        <div class="item-appreciate__text">{{ item.preview_text|safe }}</div>
+        <div class="comment-button"><button class="button" id="{{ item.id }}">Читать далее</button></div>
+      </div>
+    </div>
+    {% endfor %}
+
+
+    <div class="upload_block" style="margin: 0 auto; display: block; margin-top: 100px;">
+      <form enctype="multipart/form-data" method="POST" action="">
+          {% csrf_token %}
+          <div class="upload_form_wrapper">
+            <div>
+
+              <label class="form-group">
+
+                <input name="file" type="file" class="main_input_file" id="fileupload" />
+                <div class="upload_form_btn">Прикрепить</div>
+              </label>
+
+            </div>
+
+            <div class="progres_wrapper">
+
+              {% comment %} <div class="progres_item">
+                <input class="f_name" type="text" id="f_name" value="Файл не выбран." disabled />
+                <div class="progres_base">
+                  <div class="progres_current" style="width: 0%"></div>
+                </div>
+              </div> {% endcomment %}
+
+            </div>
+
+            
+          </div>
+
+          {% comment %} <div class="form-group">
+              <input type="file" class="change_file_input form-control" id="fileupload" placeholder="">
+              <div class="progres_base">
+                <div class="progres_current" style="width: 77%">
+                </div>
+              </div>
+          </div> {% endcomment %}
+      </form>
+    </div>
+
+
+  </div>
+</section>
+{% endblock %}
+{% block js %}
+<script src="{% static "/js/upload_files.js"  %}"></script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'MainService/base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static "css/tabs.css" %}">
+    <link rel="stylesheet" href="{% static "css/account_body.css" %}">
+    
+    
+{% endblock %}
+
+{% block page %}
+<div class="wrapper__page">
+  <section class="_container">
+    <div class="account_page_wrapper">
+      <div class="tabs__pane tabs__pane_show account__nav">
+        <a href="account" class="button account_btn">Основные данные</a>
+        <a href="security" class="button account_btn">Безопасность</a>
+        <a href="logout" class="button account_btn">Выйти</a>
+      </div>
+      <div class="tabs__pane tabs__pane_show account__content">
+        <div class="form-wrapper">
+          <form action="" method="post" class="form-center">
+            {% csrf_token %}
+            
+            <p>На этой странице вы сможете изменить смои личные данные или добавить новые.</p>
+            <div class="fio">
+              <input name="" class="input" id="first_name" placeholder="Имя*" value="{{ user.last_name }}" disabled>
+              <input name="" class="input" id="last_name" placeholder="Фамилия" value="{{ user.last_name }}" disabled>
+              <input name="" class="input" id="patronymic" placeholder="Отчество" value="{{ user.patronymic }}" disabled>
+            </div>
+            {% if user.birthday %}
+            <input name="" class="input" id="birthday" placeholder="День рождения" value="{{ user.birthday }}" disabled>
+            {% else %}
+            <input name="" class="input" id="birthday" placeholder="День рождения" disabled>
+            {% endif %}
+            <input name="" class="input" id="email" placeholder="Email" value="{{ user.email }}" disabled>
+            <input name="" class="input" id="telephon" placeholder="Телефон" value="{{ user.telephon }}" disabled>
+            <div id="change_btn_auth" type="submit" class="btn_auth show" value="Submit">Редактировать</div>
+            <div id="save_btn_auth" type="submit" class="btn_auth" value="Submit" disabled>Сохранить</div>
+            <p class="invite_url">Ссылка для приглашения:</p><span>{{ invite }}</span>
+          </form>
+        </div>
+      </div>    
+    </div>
+
+  </section>
+</div>
+{% endblock %}
+{% block js %}
+  <script src="{% static "js/auth.js" %}"></script>
+{% endblock %}

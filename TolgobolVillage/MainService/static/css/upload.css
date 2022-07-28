@@ -1,0 +1,83 @@
+
+.upload_block {
+}
+.upload_form_wrapper {
+}
+.progres_wrapper {
+    margin-left: 5px;
+}
+.progres_base, .progres_current {
+    width: 150px;
+    height: 5px;
+    border-radius: 3px;
+}
+.progres_base, .progres_current {
+    background-color: lightgray;
+}
+.progres_current {
+    background-color: #fd7349;
+}
+.progres_complete {
+    background-color: green;
+}
+.main_input_file {
+	display: none;
+}
+
+.form-group {
+    display: flex;
+}
+.upload_btn {
+    font-size: 14px;
+    line-height: 17px;
+    width: 100px;
+	height: 26px;
+
+}
+.upload_form_btn {
+	width: 100px;
+	height: 32px;
+	text-align: center;
+	line-height: 28px;
+	font-size: 14px;
+    background-color: white;
+    border: 1px solid #3AA6D0;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.upload_form_btn:hover {
+    background-color: #95e1ff;
+}
+
+.upload_form_btn:active {
+    background-color: #66cef7;
+}
+
+#f_name {
+	background: transparent;
+	border: 0;
+	vertical-align: top;
+	height: 25px;
+	padding: 0 8px;
+	width: 155px;
+    text-overflow: ellipsis;
+}
+
+.file_item_del {
+    width: 31px;
+    height: 31px;
+    background-image: url("del.png");
+    border-radius: 15px;
+    cursor: pointer;
+    position: absolute;
+    top: 3px;
+    right: -25px;
+}
+.file_item_del:hover {
+    background-color: #d0e0e7;
+}
+.input_wrapper {
+    display: inline-flex;
+    position: relative;
+}

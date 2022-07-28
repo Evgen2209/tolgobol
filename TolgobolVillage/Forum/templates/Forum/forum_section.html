@@ -1,0 +1,54 @@
+{% extends 'Forum/forum_base.html' %}
+
+{% load static %}
+
+{% block forum_css %}
+{% endblock %}
+
+{% block forum_content %}
+<a class="return" href="{% url 'forum' %}">
+  <div class="arrow_2" href="{% url 'forum' %}">
+    <div></div>
+  </div>
+  <span>Назад</span>
+</a>
+
+{% if not posts %}
+<div class="section">
+  <div class="section__item">
+      <div class="section__title">Еще нет ни одной темы</div>
+    <div class="section__wrap">
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% for post in posts %}
+<div class="section">
+  <div class="section__item">
+    <a  href="{% url 'forum' %}{{ section_id }}/{{ post.id }}">
+      <div class="section__title">{{ post.title }}</div>
+    </a>
+    <div class="section__wrap">
+      <div class="section__msg">
+        <p>Сообщений</p>
+        <p>{{ post.message_count }}</p>
+      </div>
+      <div class="section__new-msg">
+        {% if post.last_message %}
+        <div>
+          <span>{{ post.last_message.date }}</span>
+          <span>{{ post.last_message.author }}</span>
+        </div>
+        {% else %}
+        <p>Нет сообщений</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block forum_js %}
+{% endblock %}

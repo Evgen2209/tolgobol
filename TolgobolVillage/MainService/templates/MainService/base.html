@@ -1,0 +1,105 @@
+<!doctype html>
+{% load static %}
+
+<html lang="ru">
+  <head>
+    <!-- Обязательные метатеги -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static "/css/style.css"  %}">
+    <link rel="stylesheet" type="text/css" href="{% static "/css/header.css"  %}">
+    <link rel="stylesheet" type="text/css" href="{% static "/css/footer.css"  %}">
+    {% block css %}
+    {% endblock %}
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="header__container _container">
+                <div href="" class="header__logo"><a href="/"><img href="home" src="{% static "images/logo.png"  %}" alt=""></a></div>
+                <div class="header__menu menu">
+                    <nav class="menu__body">
+                        <ul class="menu__list">
+                          {% for el in menu %}
+                            <li>
+                                <a class="menu__link" href="{% url el.url_name %}">{{ el.title }}</a>
+                                {% if 'sub_menu' in el %}
+                                <div class="menu__arrow">
+                                  <span class="menu__arrow-left"></span>
+                                  <span class="menu__arrow-right"></span>
+                                </div>
+                                <ul class="menu__sub-list">
+                                  {% for sub_el in el.sub_menu %}
+                                  <li><a href="{% url sub_el.url_name %}" class="menu__sub-link">{{ sub_el.sub_title }}</a></li>
+                                  {% endfor %}
+                                </ul>
+                                {% endif %}
+                            </li>
+                          {% endfor %}
+                        </ul>
+                    </nav>
+                    <div class="contact-menu__raw">
+                        <div class="contact-menu__social">
+                          <img src="{% static "/images/nav/facebook.png"  %}" alt="">
+                          <img src="{% static "/images/nav/vk.png"  %}" alt="">
+                        </div>
+                    </div>  
+                    <div  class="auth">
+                      <ul class="menu__list auth_menu">
+                        <li>
+                          <a href="{% url account.url_name %}" class="menu__link">{{ account.title }}</a>
+                          {% if 'sub_menu' in account %}
+                          <div class="menu__arrow block_none">
+                            <span class="menu__arrow-left block_none"></span>
+                            <span class="menu__arrow-right block_none"></span>
+                          </div>
+                          <ul class="menu__sub-list menu__sub-list_right block_none auth_sub-menu">
+                            {% for sub_el in account.sub_menu %}
+                            <li><a href="{% url sub_el.url_name %}" class="menu__sub-link">{{ sub_el.sub_title }}</a></li>
+                            {% endfor %}
+                          </ul>
+                          {% endif %}
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="menu__icon header__burger">
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main page">
+        {% block page %}
+	      {% endblock %}
+        </main>
+
+      <footer class="footer">
+        <div class="footer-wrapper _container">
+          <div class="footer-nav__wrapper">
+            <div class="footer-nav footer-nav-menu">
+              <ul class="footer-nav-menu__list">
+                {% for el in menu %}
+                <li><a href="{% url el.url_name %}" class="footer-nav-menu__link">{{ el.title }}</a></li>
+                {% endfor %}
+              </ul>  
+            </div>
+            <div class="footer-nav footer-nav-social">
+              <img src="{% static "/images/nav/facebook.png"  %}" alt="">
+              <img src="{% static "/images/nav/vk.png"  %}" alt="">
+              <div class="footer__telephone">
+              <span class="footer-address">Адрес: Ярославская область село Толгоболь</span>
+              </div>
+            </div>            
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="{% static "/js/burger.js"  %}"></script>
+    <script src="{% static "/js/utils.js"  %}"></script>
+    {% block js %}
+    {% endblock %}
+  </body>
+</html>

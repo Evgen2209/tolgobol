@@ -1,0 +1,16 @@
+{% extends 'registration/index.html' %}
+
+{% block title %}
+<title>Страница регистрации</title>
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'login' %}" method="get">
+    {% csrf_token %}
+
+    <p><label>{{ last_name }} {{ first_name }}, спасибо что с нами!</label></p>
+    <p><label>Для входа необхлдимо подтвердить почту</label></p>
+    <button type="submit">Перейти на страницу входа</button>
+</form>
+
+{% endblock %}

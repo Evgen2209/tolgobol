@@ -1,0 +1,27 @@
+{% extends 'MainService/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "/css/forum_base.css"  %}">
+{% block forum_css %}
+{% endblock %}
+{% endblock %}
+
+{% block page %}
+<div class="wrapper__page">
+  <section class="_container">
+    <div class="forum_page_wrapper">
+      <div class="forum__pane">
+        {% block forum_content %}
+        {% endblock %}
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block js %}
+{% block forum_js %}
+{% endblock %}
+{% endblock %}

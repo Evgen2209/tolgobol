@@ -1,0 +1,29 @@
+{% extends 'registration/index.html' %}
+
+{% block title %}
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+<h1>Страница авторизации</h1>
+
+{% if next %}
+  {% if user.is_authenticated %}
+    <p>Вход уже выполнен</p>
+  {% else %}
+    <p>Пожалуйста выполните вход в систему</p>
+  {% endif %}
+{% endif %}
+
+{% if form.errors %}
+    {% for f in form.errors.as_data.values %}
+        {% for i in f %}
+            {% for sms in i.messages %}
+                <p>{{ sms }}</p>
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+
+{% endblock %}

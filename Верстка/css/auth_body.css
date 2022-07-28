@@ -1,0 +1,44 @@
+.form-center {
+  margin: 30px 0px 30px 0px;
+}
+
+.linc-password {
+  margin: 10px;
+}
+
+.adress {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.fio {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gender {
+  margin-left: 10px;
+}
+
+.gender label {
+  margin: 0px 5px 0px 5px;
+}
+
+.contract {
+  display: flex;
+  margin-left: 10px;
+}
+
+.strit {
+  width: 230px;
+}
+
+.house {
+  width: 100px;
+}
+
+.auth-help {
+  margin-top: 10px;
+  padding-left: 10px;
+}
+/*# sourceMappingURL=auth_body.css.map */

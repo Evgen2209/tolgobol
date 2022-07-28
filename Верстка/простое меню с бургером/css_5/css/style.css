@@ -1,0 +1,309 @@
+/*Обнуление*/
+*{padding: 0;margin: 0;border: 0;}
+*,*:before,*:after{-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+:focus,:active{outline: none;}
+a:focus,a:active{outline: none;}
+nav,footer,header,aside{display: block;}
+html,body{height:100%;width:100%;font-size:100%;line-height:1;font-size:14px;-ms-text-size-adjust:100%;-moz-text-size-adjust:100%;-webkit-text-size-adjust:100%;}
+input,button,textarea{font-family:inherit;}
+input::-ms-clear{display: none;}
+button{cursor: pointer;}
+button::-moz-focus-inner {padding:0;border:0;}
+a,a:visited{text-decoration: none;}
+a:hover{text-decoration: none;}
+ul li{list-style: none;}
+img{vertical-align: top;}
+h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: inherit;}
+/*--------------------*/
+/* ≥576px	≥768px	≥992px	≥1200px	≥1400px */
+/* 540px		720px		960px		1140px	1320px */
+body {
+	min-width: 1400px;
+	margin: 0 auto;
+}
+.box{
+	border: 1px solid orange;
+	/* padding: 5px; */
+}
+.nav_raw {
+	display: flex;
+	font-size: 15px;
+}
+.section {
+	cursor: pointer;
+	padding: 10px;
+	background-color: rgb(218, 233, 245);
+}
+.section:hover {
+	box-shadow:  inset 0px 0px 10px 4px rgb(49, 153, 245);
+	background-color: rgb(165, 209, 248);
+	
+}
+.section:active {
+	background-color: rgb(49, 153, 245);
+}
+
+/* Оформление панели */
+#side-checkbox {
+	display: none;
+}
+.side-panel {
+	position: fixed;
+	z-index: 999999;
+	top: 0;
+	right: -360px;
+	background: #337AB7;
+	transition: all 0.5s;   
+	width: 320px;
+	height: 100vh;
+	box-shadow: -10px 0 20px rgba(0,0,0,0.4);
+	color: #FFF;
+	padding: 40px 20px;
+}
+
+/* Оформление кнопки на странице */
+.side-button-1-wr {
+	text-align: center; /* Контейнер для кнопки, чтобы было удобнее ее разместить */
+}
+.side-button-1 {
+	display: inline-block;
+}
+.side-button-1 .side-b {
+	margin: 10px;
+	text-decoration: none;
+	position: relative;
+	font-size: 20px;
+	line-height: 20px;
+	padding: 12px 30px;
+	color: #FFF;
+	font-weight: bold;
+	text-transform: uppercase; 
+	font-family: 'Roboto Condensed', Тahoma, sans-serif;
+	background: #337AB7;
+	cursor: pointer; 
+	border: 2px solid #BFE2FF;
+}
+.side-button-1 .side-b:hover,
+.side-button-1 .side-b:active,
+.side-button-1 .side-b:focus {
+	color: #FFF;
+}
+.side-button-1 .side-b:after,
+.side-button-1 .side-b:before {
+	position: absolute;
+	height: 4px;
+	right: 50%;
+	bottom: -6px;
+	content: "";
+	transition: all 280ms ease-in-out;
+	width: 0;
+}
+.side-button-1 .side-open:after,
+.side-button-1 .side-open:before {
+	background: green;
+}
+.side-button-1 .side-close:after,
+.side-button-1 .side-close:before {
+	background: red;
+}
+.side-button-1 .side-b:before {
+	top: -6px;
+}
+.side-button-1 .side-b:hover:after,
+.side-button-1 .side-b:hover:before {
+	width: 100%;
+	right: 0;
+}
+/* Переключатели кнопки 1 */
+.side-button-1 .side-close {
+	display: none;
+}
+#side-checkbox:checked + .side-panel + .side-button-1-wr .side-button-1 .side-open {
+	display: none;
+}
+#side-checkbox:checked + .side-panel + .side-button-1-wr .side-button-1 .side-close {
+	display: block;
+}
+#side-checkbox:checked + .side-panel {
+	right: 0;
+}
+/* Оформление кнопки на панеле */
+.side-button-2 {
+	font-size: 30px;
+	border-radius: 20px;
+	position: absolute;
+	z-index: 1;
+	top: 8px;
+	right: 8px;
+	cursor: pointer;
+	transform: rotate(45deg);
+	color: #BFE2FF;    
+	transition: all 280ms ease-in-out;    
+}
+.side-button-2:hover {
+	transform: rotate(45deg) scale(1.1);    
+	color: #FFF;
+}
+.test {
+	display: none;
+}
+
+.hamburger {
+	font-size: 30px;
+	position: fixed;
+	z-index: 999999;
+	top: 20px;
+	right: 0px;
+	background: #337AB7;  
+	width: 40px;
+	height: 40px;
+	box-shadow: -10px 0 20px rgba(0,0,0,0.4);
+
+}
+
+.hamburger-line {
+	margin: 7px 5px 0px 5px;
+	height: 3px;
+	background-color: #03437a;
+}
+
+@media (min-width: 320px) {
+	body { min-width: 300px; }
+	.side-panel {
+		position: fixed;
+		z-index: 999999;
+		top: 0;
+		right: -360px;
+		background: #337AB7;
+		transition: all 0.5s;   
+		width: 320px;
+		height: 100vh;
+		box-shadow: -10px 0 20px rgba(0,0,0,0.4);
+		color: #FFF;
+		padding: 40px 20px;
+	}
+		.section{ background-color: initial; }
+
+}
+
+@media (min-width: 375px) {
+	body { min-width: 350px; }
+	.side-panel {
+		position: fixed;
+		z-index: 999999;
+		top: 0;
+		right: -360px;
+		background: #337AB7;
+		transition: all 0.5s;   
+		width: 320px;
+		height: 100vh;
+		box-shadow: -10px 0 20px rgba(0,0,0,0.4);
+		color: #FFF;
+		padding: 40px 20px;
+	}
+}
+
+@media (min-width: 414px) {
+	body { min-width: 380px; }
+	.side-panel {
+		position: fixed;
+		z-index: 999999;
+		top: 0;
+		right: -360px;
+		background: #337AB7;
+		transition: all 0.5s;   
+		width: 320px;
+		height: 100vh;
+		box-shadow: -10px 0 20px rgba(0,0,0,0.4);
+		color: #FFF;
+		padding: 40px 20px;
+	}
+}
+
+@media (min-width: 600px) {
+	body { min-width: 550px; }
+	.side-panel {
+		position: fixed;
+		z-index: 999999;
+		top: 0;
+		right: -360px;
+		background: #337AB7;
+		transition: all 0.5s;   
+		width: 320px;
+		height: 100vh;
+		box-shadow: -10px 0 20px rgba(0,0,0,0.4);
+		color: #FFF;
+		padding: 40px 20px;
+	}
+}
+
+@media (min-width: 600px) {
+	body { min-width: 550px; }
+	.side-panel {
+		position: fixed;
+		z-index: 999999;
+		top: 0;
+		right: -360px;
+		background: #337AB7;
+		transition: all 0.5s;   
+		width: 320px;
+		height: 100vh;
+		box-shadow: -10px 0 20px rgba(0,0,0,0.4);
+		color: #FFF;
+		padding: 40px 20px;
+	}
+}
+
+@media (min-width: 768px) {
+	body { max-width: 700px; }
+	.nav_raw { font-size: 15px; }
+	.hamburger { display: none ; }
+	.side-button-2 { display: none ; }
+	.side-panel {
+		display: flex;
+		position: static;
+		z-index: 0;
+		top: 0;
+		right: 0px;
+		background: initial;
+		transition: initial;   
+		width: auto;
+		height: auto;
+		box-shadow: initial;
+		color: rgb(0, 0, 0);
+		padding: 0px 0px;
+		justify-content: space-between;
+	}
+	.meny {
+		display: flex;
+	}
+	.auth {
+		display: flex;
+	}
+	.section{ background-color: rgb(218, 233, 245); }
+}
+
+@media (min-width: 1024px) {
+	body { max-width: 950px; }
+	.hamburger { display: none ; }
+	.side-button-2 { display: none ; }
+}
+
+@media (min-width: 1200px) {
+	body { max-width: 1140px; }
+	.test { display: none; }
+	.hamburger { display: none ; }
+	.side-button-2 { display: none ; }
+}
+	
+
+
+
+
+
+
+
+
+
+
+ 

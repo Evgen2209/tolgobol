@@ -1,0 +1,26 @@
+$max-width: 600px;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+article {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.full-width {
+  background: #faa;
+  width: 100vw;
+  @media all and (min-width: $max-width) {
+    margin-left: calc(300px - 50vw);
+    margin-right: calc(300px - 50vw);
+  }
+}
+
+p {
+  margin: 15px 0;
+}

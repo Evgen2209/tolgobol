@@ -1,0 +1,225 @@
+.abstract-block {
+  position: relative;
+}
+
+.abstract__section {
+  position: relative;
+}
+
+.abstract__section .abstract__wrapper .abstract-block__body {
+  position: relative;
+  z-index: 2;
+}
+
+.abstract__section .abstract__wrapper .abstract-block__body .abstract-block__title {
+  text-align: center;
+  padding-top: 60px;
+  font-size: 32px;
+  line-height: 57px;
+}
+
+.abstract__section .abstract__wrapper .abstract-block__body .abstract-body__container {
+  margin: 0px auto;
+  padding: 20px 0px;
+}
+
+.abstract__section .abstract-block__image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+}
+
+@media (min-width: 351px) {
+  .abstract__section .abstract__wrapper .abstract-block__body .abstract-block__title {
+    font-size: 48px;
+    line-height: 57px;
+  }
+}
+
+.seven-feet__section {
+  background-color: #f8f3ed;
+}
+
+.seven-feet__body {
+  color: black;
+  padding-bottom: 50px;
+}
+
+.seven-feet__body .seven-feet__title {
+  margin: 55px 0px 0px 0px;
+}
+
+.seven-feet__body .seven-feet__container {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.seven-feet__body .seven-feet__container .seven-feet__item {
+  flex: 1 0 45%;
+  margin: 0px 15px 40px 15px;
+  justify-content: space-between;
+}
+
+.seven-feet__body .seven-feet__container .seven-feet__item img {
+  margin: 20px;
+}
+
+.seven-feet__body .seven-feet__container .seven-feet__item h2 {
+  font-size: 24px;
+  line-height: 29px;
+  margin-bottom: 10px;
+}
+
+.seven-feet__body .seven-feet__container .seven-feet__item p {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+@media (min-width: 351px) {
+  .seven-feet__body {
+    padding-bottom: 50px;
+  }
+  .seven-feet__body .seven-feet__title {
+    margin: 55px 0px 0px 0px;
+  }
+}
+
+@media (min-width: 700px) {
+  .seven-feet__section .seven-feet__wrapper .seven-feet__body .seven-feet__title {
+    margin: 100px 0px 0px 0px;
+  }
+}
+
+@media (min-width: 850px) {
+  .seven-feet__body .seven-feet__container {
+    flex-wrap: nowrap;
+  }
+  .seven-feet__body .seven-feet__container .seven-feet__item {
+    flex: 1 0 22%;
+  }
+}
+
+.mission__body {
+  color: white;
+  padding-bottom: 150px;
+}
+
+.mission__body .mission__title {
+  margin: 0px 0px;
+}
+
+.mission__body .mission__container {
+  max-width: 600px;
+}
+
+.mission__body .mission__container p {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+@media (min-width: 351px) {
+  .mission__body {
+    color: white;
+    padding-bottom: 300px;
+  }
+  .mission__body .mission__container {
+    max-width: 600px;
+  }
+  .mission__body .mission__container p {
+    font-size: 24px;
+    line-height: 29px;
+  }
+}
+
+@media (min-width: 700px) {
+  .mission__section .mission__wrapper .mission__body .mission__title {
+    margin: 0px 0px 100px 0px;
+  }
+}
+
+.privilege__body {
+  padding-bottom: 50px;
+}
+
+.privilege__body .privilege__container {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+}
+
+.privilege__body .privilege__container .privilege__item {
+  display: flex;
+  align-items: center;
+  margin: 0px 15px 15px 15px;
+}
+
+.privilege__body .privilege__container .privilege__item img {
+  margin: 10px;
+}
+
+.privilege__body .privilege__container .privilege__item p {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.advantage__body {
+  color: white;
+  padding-bottom: 50px;
+}
+
+.advantage__body .advantage__container {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.advantage__body .advantage__container .advantage__item {
+  flex: 1 0 45%;
+  margin: 0px 15px 40px 15px;
+  justify-content: space-between;
+}
+
+.advantage__body .advantage__container .advantage__item img {
+  margin: 20px;
+}
+
+.advantage__body .advantage__container .advantage__item h2 {
+  font-size: 32px;
+  line-height: 29px;
+  margin-bottom: 10px;
+}
+
+.advantage__body .advantage__container .advantage__item p {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+@media (min-width: 351px) {
+  .advantage__body {
+    padding-bottom: 50px;
+  }
+}
+
+@media (min-width: 850px) {
+  .advantage__body .advantage__container {
+    flex-wrap: nowrap;
+  }
+  .advantage__body .advantage__container .advantage__item {
+    flex: 1 0 22%;
+  }
+}
+
+@media (max-width: 768px) {
+  .advantage__image img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    object-fit: cover;
+  }
+}
+/*# sourceMappingURL=about_body.css.map */

@@ -1,0 +1,139 @@
+{% extends 'MainService/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "/css/tabs.css"  %}">
+<link rel="stylesheet" href="{% static "/css/collection_body.css"  %}">
+<link rel="stylesheet" href="{% static "/css/modal.css"  %}">
+<link rel="stylesheet" href="{% static "css/tabs.css" %}">
+<link rel="stylesheet" href="{% static "css/auth_body.css" %}">
+<link rel="stylesheet" href="{% static "css/modal.css" %}">
+
+{% endblock %}
+
+{% block page %}
+<div class="wrapper__page">
+  <section class="test _container">
+    <div class="tabs">
+      <div class="tabs__nav">
+        <button class="tabs__btn tabs__btn_active" id="target">Цели</button>
+        <button class="tabs__btn" id="expenses">Траты</button>
+      </div>
+      <div class="tabs__content">
+        <div class="tabs__pane tabs__pane_show">
+          {% for collect in collects %}
+          <div class="block">
+            <div class="block-title">
+              {{ collect.title }}
+            </div>
+            <div class="block-text">
+              {{ collect.comment }}
+            </div>
+            <div class="block-content">
+              <div class="block-content-item">
+                <div class="content-item-key">Требуется:</div>
+                <div class="content-item-value">{{ collect.need_total_summ }}</div>
+              </div>
+              <div class="block-content-item">
+                <div class="content-item-key">Срок:</div>
+                <div class="content-item-value">{{ collect.finish_data }}</div>
+              </div>
+              <div class="block-content-item">
+                <div class="content-item-key">Собранно:</div>
+                <div class="content-item-value">{{ collect.total_sum }}</div>
+              </div>
+              <div class="block-content-item">
+                <div class="content-item-key">Остаток:</div>
+                <div class="content-item-value">{{ collect.available }}</div>
+              </div>
+              <div class="block-content-item">
+                <div class="content-item-key">По сколько:</div>
+                <div class="content-item-value">{{ collect.need_summ_on_user }}</div>
+              </div>
+              <div class="content-item-key collect_docements">Прикрепленные документы:</div>
+              {% for name, url in collect.files.items %}
+              <a href="{{ url }}" class="document-name collect_docements" download>{{ name }}</a>
+              {% endfor %}
+            </div>
+            <div class='collect_options'>
+              <span class="filter arrows" id='filter_btn'>Подробнее</span>
+              {% if user.is_authenticated %}
+                {% if user.is_starosta %}
+                  <button class='insert_collect_btn' id="{{ collect.id }}" months={{ collect.on_months }}>Добавить взнос</button>
+                {% endif %}
+              {% endif %}
+            </div>
+            <div class="block_filters" id='filter_block'>
+              <table>
+                  {% for i in collect.filter_from_strit %}
+                  <tr class="">
+                    <td colspan=2 id="{{ i.id }}" class="table_cel sub_table"><span class="arrows left"></span>{{ i.strit }}:</td>
+                    <td class="table_cel">{{ i.summ_on_strit }}</td>
+                    <td class="table_cel">{{ i.collect_adres }}</td>
+                    <td class="table_cel">из</td>
+                    <td class="table_cel">{{ i.count_adres }}</td>
+                  </tr>
+                  <tr class="sub_table_block {{ i.id }}">
+                    <td class="">
+                      <table>
+                      {% for hous, sum in i.filter_on_hous.items %}
+                      <tr class="">
+                       
+                        <td class="table_sub_cel">{{ hous }}:</td>
+                        <td class="">{{ sum }}</td>    
+                      </tr>
+                      {% endfor %}
+                      </table>
+                    </td> 
+                  </tr>
+                  {% endfor %}
+              </table>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="tabs__pane">
+          {% for change in changes %}
+          <div class="block">
+            <div class="block-title">
+              {{ change.title }}
+            </div>
+            <div class="block-text">
+              {{ change.comment }}
+            </div>
+            <div class="block-content">
+              <div class="block-content-item">
+                <div class="content-item-key">Потрачено:</div>
+                <div class="content-item-value">{{ change.sum }}</div>
+              </div>
+              <div class="block-content-item">
+                <div class="content-item-key">Дата:</div>
+                <div class="content-item-value">{{ change.data }}</div>
+              </div>
+              <div class="block-content-item">
+                <div class="content-item-key">Откуда:</div>
+                <div class="content-item-value">из "{{ change.collect_money }}"</div>
+              </div>
+              <div class="documents">
+                <div class="content-item-key">Прикрепленные документы:</div>
+                {% for name, url in change.files.items %}
+                <a href="{{ url }}" class="document-name collect_docements" download>{{ name }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static "/js/tabs.js"  %}"></script>
+<script src="{% static "/js/collect.js"  %}"></script>
+<script src="{% static "/js/utils.js"  %}"></script>
+<script src="{% static "/js/adres_component.js"  %}"></script>
+{% endblock %}

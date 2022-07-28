@@ -1,0 +1,281 @@
+.forum__pane {
+  display: block;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  color: #252449;
+  margin: 0px 0px 0px 0px;
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+  border: 1px solid #25244942;
+  min-height: 100%;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: calc( 19 / 12 * 100%);
+  margin-top: 10px;
+}
+
+.forum_page_wrapper {
+  flex: 0 1 auto;
+}
+
+.post_wrapper {
+  padding: 7px;
+  
+}
+
+.post {
+  padding: 10px 10px 0px 10px;
+  border-radius: 10px;
+  border: 1px solid #3AA6D0;
+  box-shadow: 0px 6px 15px -2px rgba(29, 70, 101, 0.56);
+}
+
+.post_title {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.post_text {
+  text-indent: 20px;
+  margin-bottom: 10px;
+  width: 100%;
+  height: 100%;
+
+}
+
+.post_files {
+  color: #727272;
+  font-size: 14px;
+}
+
+.post_file {
+  padding-right: 5px;
+  padding-bottom: 5px;
+}
+
+.post_meta {
+  display: flex;
+  justify-content: space-between;
+  color: #727272;
+  font-size: 14px;
+}
+
+.post_author {
+  
+}
+
+.post_data {
+
+}
+
+.post_options {
+}
+
+.btn_post_update {
+  color: #727272;
+  font-size: 14px;
+  padding: 1px 5px;
+  border-bottom: 1px dotted transparent;
+  font-weight: 600;
+}
+
+.btn_post_update:hover {
+  border-radius: 10px;
+  border-bottom: 1px dotted #727272;
+}
+
+.perent_wrapper {
+  border-bottom: 1px solid #9e9e9e;
+  margin-bottom: 15px;
+}
+.parent_text {
+  text-indent: 20px;
+  font-style: italic;
+  color: #5a5a5a;
+  font-size: 14px;
+}
+.parent_meta {
+  display: flex;
+  justify-content: space-between;
+  color: #727272;
+  font-size: 12px;
+}
+.post_author {}
+.post_data {}
+
+
+
+.post_options {
+  padding: 1px 5px;
+  display: flex;
+}
+
+.post_options_self {
+
+}
+
+.post_options_none {
+  display: flex;
+  justify-content: flex-end;
+}
+.post_options_self {
+  justify-content: space-between;
+}
+.btn_message {
+  font-size: 14px;
+  padding: 1px 5px;
+  border-bottom: 1px dotted transparent;
+}
+
+.btn_message_answer {
+  color: #4851c7;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn_message_answer:hover {
+  border-radius: 10px;
+  border-bottom: 1px dotted #4851c7;
+}
+
+.btn_message_update {
+  color: #727272;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn_message_update:hover {
+  border-radius: 10px;
+  border-bottom: 1px dotted #727272;
+}
+.btn_message_delet {
+  color: rgb(122, 0, 0);
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn_message_delet:hover {
+  border-radius: 10px;
+  border-bottom: 1px dotted rgb(122, 0, 0);
+  transition: none;
+}
+.post_wrapper_none {
+  margin-right: 15%;
+  
+}
+.post_wrapper_self {
+  margin-left: 15%;
+}
+.post_none {
+  background-color: rgba(39, 164, 247, 0.25);
+}
+.post_self {
+  background-color: rgba(29, 206, 97, 0.25);
+}
+.post_area {
+  display:flex;
+  flex-direction: column;
+}
+
+.post_area_messages {
+  min-height: 55vh;
+}
+
+.message_output {
+  position: absolute;
+  bottom: 15vh;
+  height: 15vh;
+}
+
+
+
+
+
+
+
+.output_wrapper {
+  margin-top: 20px;
+}
+.hide_panel {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+}
+.hight_btn {
+  color: #403be7;
+  font-weight: 600;
+  position: absolute;
+  right: 10px;
+  top: -25px;
+  z-index: 11;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 15px;
+  padding: 3px 8px;
+}
+.hight_btn:hover {
+  background-color: rgba(75, 174, 255, 0.664);
+}
+.message_area {
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+.message_hight {
+  max-height: 75vh;
+}
+.delet_parent_sms {
+  color: rgb(145, 1, 1);
+  cursor: pointer;
+}
+.output_panel {
+  border-top: 1px solid #7f96fd;
+  padding: 5px;
+  border-radius: 15px;
+  margin-top: 10px;
+  position: sticky;
+  top: 0;
+  bottom: 0;
+  display: none;
+}
+.respons_message {
+  margin-left: 5%;
+  margin-right: 5%;
+  
+}
+.output_message_options {
+  padding: 5px 0px;
+  display: flex;
+  justify-content: space-between;
+}
+.btn_output {
+  background-color: white;
+  border: 1px solid #403be7;
+  border-radius: 15px;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+.btn_output:hover {
+  background-color: #70c4e945;
+}
+
+.output_message_options {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.input_text {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.output_message {
+  resize: none;
+  height: 100px;
+  width: 100%;
+  background: #f6f6f6;
+	border: 1px solid #cecece;
+	border-radius: 8px 0 0 0;
+	padding: 8px 0 8px 10px;
+}
+
+.open_panel {
+  display: block;
+  transform-origin: center center;
+}
+
+
+

@@ -1,0 +1,234 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Elsie:wght@900&family=Manrope&display=swap");
+/* Конфиг */
+.container {
+  width: 100%;
+  max-width: 1428px;
+  margin: 0px auto;
+}
+
+._box {
+  border: 1px solid orange;
+}
+
+.tw {
+  height: 1500px;
+}
+
+body.lock {
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  z-index: 5;
+}
+
+.contact-menu__raw {
+  display: flex;
+}
+
+.contact-menu__raw .contact-menu__social {
+  display: flex;
+  flex-wrap: nowrap;
+  margin: auto 0px;
+}
+
+.contact-menu__raw .contact-menu__social img {
+  margin-right: 15px;
+  width: 15px;
+  height: 15px;
+}
+
+.contact-menu__raw .contact-menu__telephone {
+  margin: auto 10px;
+}
+
+.contact-menu__raw .contact-menu__telephone img {
+  width: 10px;
+  height: 10px;
+}
+
+.contact-menu__raw .contact-menu__telephone a {
+  color: #000000;
+}
+
+.contact-menu__raw .contact-menu__telephone a:hover {
+  border-bottom: 1px dotted #000000;
+}
+
+.header__logo {
+  position: relative;
+  top: 0px;
+  left: 25%;
+  padding: 10px 0px 10px 15px;
+  display: inline;
+  width: 70px;
+  height: 80px;
+}
+
+@media (min-width: 768px) {
+  .header__logo {
+    left: auto;
+  }
+}
+
+.menu__column {
+  display: flex;
+  height: 80px;
+  z-index: 5;
+}
+
+.menu__list {
+  position: relative;
+  left: 0px;
+  margin-top: 80px;
+  height: 100%;
+  align-items: center;
+  font-size: 16px;
+}
+
+.menu__list > li {
+  position: relative;
+  padding: 10px 15px 10px 15px;
+}
+
+.menu__list > li a {
+  transition: color .25s ease, padding .2s ease;
+  white-space: nowrap;
+  color: #333333;
+}
+
+.menu__list > li a:hover {
+  color: #0077B6;
+}
+
+.menu__list > li:hover .sub-menu__list {
+  display: block;
+  position: static;
+}
+
+.menu__list .sub-menu__list {
+  display: none;
+  position: absolute;
+  left: 0px;
+  padding-top: 10px;
+}
+
+.menu__list .sub-menu__list > li {
+  background-color: #ffffff;
+}
+
+.menu__list .sub-menu__link {
+  display: inline-block;
+  padding: 5px 20px 5px 15px;
+}
+
+.header__menu {
+  position: fixed;
+  right: -300px;
+  top: 0px;
+  min-width: 250px;
+  height: 100%;
+  transition: all 0.3s ease 0s;
+  overflow: auto;
+  background-color: #ffffff;
+}
+
+.header__menu.active {
+  right: 0px;
+  box-shadow: -4px 0px 20px 0px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease 0s;
+}
+
+.header__burger {
+  width: 40px;
+  height: 25px;
+  position: static;
+  transition-duration: 1s;
+  margin: 20px 10px 0px 0px;
+  cursor: pointer;
+}
+
+.header__burger span {
+  height: 4px;
+  width: 40px;
+  background-color: #337AB7;
+  border-radius: 20px;
+  position: absolute;
+  transition-duration: .25s;
+  transition-delay: .25s;
+}
+
+.header__burger span:after, .header__burger span:before {
+  content: "";
+  left: 0;
+  position: absolute;
+  height: 4px;
+  width: 40px;
+  background-color: #337AB7;
+  border-radius: 20px;
+  transition-duration: .25s;
+  transition: transform .25s, top .25s .25s;
+}
+
+.header__burger span:before {
+  top: -10px;
+}
+
+.header__burger span:after {
+  top: 10px;
+}
+
+.header__burger.active span {
+  transition-duration: 0.1s;
+  transition-delay: .25s;
+  background: transparent;
+}
+
+.header__burger.active span:before {
+  transition: top .25s, transform .25s .25s;
+  top: 0px;
+  transform: rotateZ(-45deg);
+}
+
+.header__burger.active span:after {
+  transition: top 0.4s, transform .25s .25s;
+  top: 0px;
+  transform: rotateZ(45deg);
+}
+
+@media (min-width: 768px) {
+  .contact-menu {
+    position: static;
+  }
+  .header__menu {
+    display: flex;
+    position: static;
+    overflow: visible;
+  }
+  .header__burger {
+    display: none;
+  }
+  .header__body {
+    position: static;
+  }
+  .menu__list {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+  }
+  .menu__list > li:hover .sub-menu__list {
+    position: absolute;
+  }
+  .menu__column {
+    flex-direction: row;
+  }
+  .header__logo {
+    padding: 10px 0px 10px 15px;
+    display: inline;
+    height: 80px;
+  }
+}
+/*# sourceMappingURL=header1.css.map */
