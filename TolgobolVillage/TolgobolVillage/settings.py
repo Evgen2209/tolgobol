@@ -128,16 +128,23 @@ from django.contrib.auth.password_validation import CommonPasswordValidator
 import os
 if bool( os.environ.get( 'LOCAL_DJANGO', None ) ):
     ALLOWED_HOSTS = ['127.0.0.1']
-
-else:
-    ALLOWED_HOSTS = ['tolgobol-village.ru', 'www.tolgobol-village.ru']
-
-DATABASES = {
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'TolgobolVillage.sqlite3',
     }
-}# Application definition
+}
+else:
+    ALLOWED_HOSTS = ['tolgobol-village.ru', 'www.tolgobol-village.ru']
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': Path('~/tolgobol-village.ru/public_html/TolgobolVillage.sqlite3'),
+    }
+}
+
+
+# Application definition
 INSTALLED_APPS + [
     'authservice.apps.AuthserviceConfig',
     'account.apps.AccountConfig',
