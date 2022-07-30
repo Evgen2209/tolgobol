@@ -75,12 +75,7 @@ WSGI_APPLICATION = 'TolgobolVillage.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'TolgobolVillage.sqlite3',
-    }
-}
+
 
 
 # Password validation
@@ -131,10 +126,22 @@ USE_L10N = True
 from django.contrib.auth.password_validation import CommonPasswordValidator
 
 import os
-if os.environ.get( 'LOCAL_DJANGO', None ):
+if bool( os.environ.get( 'LOCAL_DJANGO', None ) ):
     ALLOWED_HOSTS = ['127.0.0.1']
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'TolgobolVillage.sqlite3',
+    }
+}
 else:
     ALLOWED_HOSTS = ['tolgobol-village.ru', 'www.tolgobol-village.ru']
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': Path('~/tolgobol-village.ru/public_html/TolgobolVillage.sqlite3'),
+    }
+}
 
 
 # Application definition
