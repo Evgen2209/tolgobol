@@ -240,10 +240,10 @@ function update_btn()
     save.onclick = function()
     {
         
-        date = {}
-        date.text = area.value
-        date.post = post.getAttribute('id')
-        date.author = post.querySelector( '.post_meta' ).querySelector( '.post_author' ).getAttribute('name')
+        data = new FormData()
+        date.append( 'text', area.value )
+        date.append( 'post', post.getAttribute('id') )
+        date.append( 'author', post.querySelector( '.post_meta' ).querySelector( '.post_author' ).getAttribute('name') )
         func_success = function()
         {
             text_el.innerText = date.text
@@ -291,9 +291,9 @@ init_update_btn()
 function delet_btn()
 {
     post = this.parentElement.parentElement.parentElement
-    data = {}
-    data.post_id = post.querySelector( '.post_self' ).getAttribute( 'id' )
-    data.author = post.querySelector('#post_meta_self').querySelector('.post_author').getAttribute( 'name' )
+    data = new FormData()
+    data.append( 'post_id', post.querySelector( '.post_self' ).getAttribute( 'id' ) )
+    data.append( 'author', post.querySelector('#post_meta_self').querySelector('.post_author').getAttribute( 'name' ) )
     func_success = function()
     {
         post.remove()
