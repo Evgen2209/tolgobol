@@ -206,15 +206,21 @@ class ForumService( View ):
         return JsonResponse( result )
 
     def copy_file( self, tmp_file, m_id ):
+        log('начало')
         tmp_path = tmp_file.tmp_path
         name = tmp_file.file_name
         nev_path_folder = os.path.join( settings.MEDIA_ROOT, 'Forum_files', str(m_id) )
+        log(nev_path_folder, 'nev_path_folder')
         if not os.path.exists( nev_path_folder ):
+            log(nev_path_folder, 'НЕ СУЩЕСТВУЕТ')
             os.makedirs(nev_path_folder)
-
+        log("СОЗДАЛ")
         nev_path = os.path.join( nev_path_folder, name )
+        log(nev_path,"nev_path")
         shutil.copyfile( tmp_path, nev_path )
+        log("СКОПИРОВАЛ")
         tmp_file.delete()
+        log("УДАЛИЛ ИЗ БД")
         return nev_path
             
     def update_message( self, request):
