@@ -25,8 +25,6 @@ SECRET_KEY = 'django-insecure-0olsdz*@2r8%z-qjy*&8c=5@(@go8l@y6cc-9z$ptai1uhqu08
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['gdjekk1r.beget.tech']
-
 
 # Application definition
 
@@ -132,7 +130,11 @@ USE_L10N = True
 
 from django.contrib.auth.password_validation import CommonPasswordValidator
 
-ALLOWED_HOSTS = [ '127.0.0.1' ]
+import os
+if os.environ.get( 'LOCAL_DJANGO', None ):
+    ALLOWED_HOSTS = ['127.0.0.1']
+else:
+    ALLOWED_HOSTS = ['tolgobol-village.ru', 'www.tolgobol-village.ru']
 
 
 # Application definition
