@@ -124,7 +124,7 @@ class CollectMoneyMonth( models.Model ):
         if not CollectMoneyMonth.objects.filter(maney=self.maney, collect_id=self.collect, month=self.month, adres_id=self.adres).count():
             super().save( *args, **kwargs )
         else:
-            print('такая запись уже существует')
+            pass
 
 def upload_to_collect( instance, filename):
     return os.path.join( 'MainService', 'CollectMoney', 'collect_id_'+str( instance.collect.id ), filename )

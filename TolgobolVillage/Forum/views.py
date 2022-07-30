@@ -36,7 +36,6 @@ class ForumNavPage( DataMixin, TemplateView ):
     title = _("Поселок Толгоболь \ Форум")
 
     def get_context_data( self, *, object_list=None, **kwargs ):
-        print(kwargs)
         c_super = super().get_context_data(**kwargs)
         c_def = self.get_user_context()
         c_def[ 'title' ] = self.title
@@ -144,7 +143,6 @@ class ForumPost( DataMixin, TemplateView ):
                 if self.request.user.id == sms.author.id:
                     item['self'] = True
             messages.append( item )
-            print(item)
         result['messages'] = messages
         return result
 
@@ -170,7 +168,6 @@ class ForumService( View ):
         return handler(request, *args, **kwargs)
     
     def send_message( self, request):
-        print(request.POST)
         if not request.user.is_authenticated:
             return JsonResponse( {"error": "Необходима авторизация"}, status=500 )
         result = {}
@@ -246,7 +243,6 @@ class ForumService( View ):
         return JsonResponse( result )
     
     def delete_message( self, request ):
-        print(request.POST)
         if not request.user.is_authenticated:
             return JsonResponse( {"error": "Необходима авторизация"}, status=500 )
         sms_id = request.POST.get( 'post_id', None )

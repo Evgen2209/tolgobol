@@ -562,7 +562,6 @@ def xl():
          try:
             cur.execute( sql_str )
          except:
-            print(sql_str)
             raise
    conn.commit()
 

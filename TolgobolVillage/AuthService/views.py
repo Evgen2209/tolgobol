@@ -207,7 +207,6 @@ class AuthService( View ):
         return JsonResponse( change_param )
     
     def get_adreses_from_strit( self, request ):
-        print(request.POST)
         strit_id = request.POST.get('strit_id', None)
         hause_name = request.POST.get('hous', None)
         kv = request.POST.get('kv', None)

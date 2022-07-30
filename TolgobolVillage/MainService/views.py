@@ -318,7 +318,6 @@ class UploadServise( View ):
     
     
     def cancel_upload( self, request ):
-        print(request.POST)
         tmp_name= request.POST.get( 'tmp_name', None )
         error = []
         if  not tmp_name:
