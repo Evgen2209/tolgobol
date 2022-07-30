@@ -10,9 +10,9 @@ from .utils import TmpFileStorage
 from datetime import datetime
 from django.utils import timezone
 from Forum.models import *
+import logging
 # Create your views here.
-
-
+logger = logging.getLogger(__name__)
 class HomePage( DataMixin, TemplateView ):
     #form = ProductForm
     template_name = 'MainService/index.html'
@@ -20,6 +20,7 @@ class HomePage( DataMixin, TemplateView ):
     title = _("Поселок Толгоболь")
 
     def get_context_data( self, *, object_list=None, **kwargs ):
+        
         c_super = super().get_context_data(**kwargs)
         c_def = self.get_user_context()
         c_def[ 'title' ] = self.title
@@ -243,6 +244,7 @@ class UploadServise( View ):
     def dispatch(self, request, *args, **kwargs):
         service_method = request.headers.get( 'X-Requested-MethodName', None ) 
         handler_name = self.mainservice_method_alias.get( service_method, None )
+        logger.error( '['+service_method+']', '"'+str(request.POST)+'"' )
         if handler_name:
             handler = getattr(
                 self, handler_name, self.http_method_not_allowed
@@ -269,7 +271,6 @@ class UploadServise( View ):
         return JsonResponse({'success':tmp_name})
     
     def upload( self, request ):
-        time.sleep(2)
         strim = request.FILES.get( 'file', None )
         tmp_name= request.POST.get( 'tmp_name', None )
         error = []

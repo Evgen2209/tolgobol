@@ -181,3 +181,79 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'TolgobolVillage.password_validator.MyNumericPasswordValidator',
     },
 ]
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '%(name)-12s %(levelname)-8s %(message)s'
+        },
+        'file': {
+            'format': '%(asctime)s\t [%(process)d][%(thread)d] %(name)-20s %(levelname)-8s %(funcName)s %(message)s',
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'formatter': 'file',
+            'filename': os.path.join(BASE_DIR, 'log.log'),
+        }
+    },
+    'loggers': {
+        '': {
+            'level': 'DEBUG',
+            'handlers': ['file'],
+            'propagate': True
+        },
+         'django': {
+            'handlers': ['file'],
+            'propagate': True,
+        },
+        'django.request': {
+            'level': 'DEBUG',
+            'handlers': ['file'],
+            'propagate': True,
+        },
+        'MainService': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    }
+}
+import sys
+import linecache, traceback, logging
+logger = logging.getLogger(__name__)
+def exception_hook( exc_type, exc_value, tb ):
+    last_local_vars = []
+    res = 'Traceback (most recent call last):\n'
+    while tb:
+        f = tb.tb_frame
+        lineno = tb.tb_lineno
+        co = f.f_code
+        filename = co.co_filename
+        name = co.co_name
+        linecache.checkcache(filename)
+        line = linecache.getline(filename, lineno, f.f_globals)
+        filename = tb.tb_frame.f_code.co_filename
+        name = tb.tb_frame.f_code.co_name
+        line_no = tb.tb_lineno
+        res = res + f"  File '{filename}', line {line_no}, in {name}\n"
+        res = res + '  ' + line
+        last_local_vars = tb.tb_frame.f_locals
+        tb = tb.tb_next  
+    lines = traceback.format_exception_only(exc_type, exc_value)
+    for line in lines:
+        res = res + str(line)
+    res = res + str( last_local_vars ) + '\n'
+    logger.exception( res )
+    return res  
+sys.excepthook = exception_hook 

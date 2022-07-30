@@ -612,7 +612,7 @@ def forum():
 
 
    
-from django.utils import timezone
-date_start = datetime.now().strftime( '%d-%m-%Y' )
-print( date_start )
 
+
+import os
+print(os.environ['PATH'].split(';'))
