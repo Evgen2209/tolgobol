@@ -11,8 +11,26 @@ from datetime import datetime
 from django.utils import timezone
 from Forum.models import *
 import logging
-# Create your views here.
+
 logger = logging.getLogger(__name__)
+
+def str_wrap( *args ):
+    st = ''
+    for i in args:
+        st += str(i)+' '
+        return st
+    
+def log( *args ):
+    logger.info( str_wrap( *args ) )
+def error( *args ):
+    logger.error( str_wrap( *args ) )
+def warning( *args ):
+    logger.warning( str_wrap( *args ) )
+def exception( *args ):
+    logger.exception( str_wrap( *args ) )
+def debug( *args ):
+    logger.debug( str_wrap( *args ) )
+    
 class HomePage( DataMixin, TemplateView ):
     #form = ProductForm
     template_name = 'MainService/index.html'
@@ -157,6 +175,7 @@ class Mainservice( View ):
     def dispatch(self, request, *args, **kwargs):
         service_method = request.headers.get( 'X-Requested-MethodName', None ) 
         handler_name = self.mainservice_method_alias.get( service_method, None )
+        log( service_method, request.POST )
         if handler_name:
             handler = getattr(
                 self, handler_name, self.http_method_not_allowed
@@ -244,7 +263,7 @@ class UploadServise( View ):
     def dispatch(self, request, *args, **kwargs):
         service_method = request.headers.get( 'X-Requested-MethodName', None ) 
         handler_name = self.mainservice_method_alias.get( service_method, None )
-        logger.error( '['+service_method+']', '"'+str(request.POST)+'"' )
+        log( service_method, request.POST )
         if handler_name:
             handler = getattr(
                 self, handler_name, self.http_method_not_allowed

@@ -51,6 +51,8 @@
 .post_file {
   padding-right: 5px;
   padding-bottom: 5px;
+  cursor: pointer;
+  max-width: 100px;
 }
 
 .post_meta {
@@ -204,7 +206,6 @@
   position: absolute;
   right: 10px;
   top: -25px;
-  z-index: 11;
   background-color: rgba(255, 255, 255, 0);
   border-radius: 15px;
   padding: 3px 8px;

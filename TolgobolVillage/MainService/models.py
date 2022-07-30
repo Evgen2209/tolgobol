@@ -159,6 +159,13 @@ class FinanceChargeFile( models.Model ):
     
     def file_name( self ):
         return os.path.basename( self.path.name )
+    def is_image( self ):
+        img = (
+            '.jpg',
+            '.png',
+        )
+        return self.path.name.endswith( img )
+
 
 class FeedbackAdres( models.Model ):
     adres = models.CharField( _('Адрес'), max_length=100, blank=True, unique=False )
@@ -180,5 +187,7 @@ class FileTmp( models.Model ):
     date_finish = models.DateTimeField( _("date finish"), blank=True, null=True )
     user = models.ForeignKey( User, on_delete = models.SET_NULL, blank=True, null=True )
     
-    
-    
+
+    def delete( self, *args, **kwargs ):
+        os.remove( self.tmp_path )
+        return super().delete()

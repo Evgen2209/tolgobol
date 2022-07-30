@@ -104,8 +104,15 @@ def upload_to_message( instance, filename):
     return os.path.join( 'Forum', 'Post', 'post_id_' + str( instance.message.post.id ), str( instance.message.author.first_name ), filename )
 
 class MessageFile( models.Model ):
-    message = models.ForeignKey( Post, on_delete = models.CASCADE, blank=False )
+    message = models.ForeignKey( Message, on_delete = models.CASCADE, blank=False )
     path = models.FileField( upload_to=upload_to_message )
     
     def file_name( self ):
         return os.path.basename( self.path.name )
+
+    def is_image( self ):
+        img = (
+            '.jpg',
+            '.png',
+        )
+        return self.path.name.endswith( img )

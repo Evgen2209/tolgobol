@@ -1,0 +1,180 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+:focus, :active {
+  outline: none;
+}
+
+a:focus, a:active {
+  outline: none;
+}
+
+nav, footer, header, aside {
+  display: block;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input, button, textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a, a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+
+
+
+
+
+/* Базовый набор кнопки  */
+/* <div title="" class="button_control"><span class="button_text">Настроить</span></div> */
+.button_control {
+  min-height: 24px;
+  border-radius: 100px;
+  background-color: #fff;
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  display: inline-flex;
+  padding: 0px 11px;
+}
+.button_text {
+  margin: auto;
+  font-size: 14px;
+  color: #333; 
+}
+/* Конец */
+
+/* Активная кнопка */
+.button_activ {
+  border-color: #ff621f;
+}
+.button_activ:hover {
+  background-color: #ffe6db;
+}
+.button_activ:active {
+  background-color: #ffdbcc;
+}
+/* Конец */
+
+
+/* Основная кнопка кнопка */
+.button_simple  {
+  border-color: #1b579d;
+}
+.button_simple:hover {
+  background-color: #dbecff;
+}
+.button_simple:active {
+  background-color: #cce4ff;
+}
+/* Конец */
+
+
+/* Базовый набор круглой кнопки  */
+.round-button_control {
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.12);;
+  border-color: transparent;
+  position: relative;
+  background-color: #ff621f;
+}
+/* Конец */
+
+/* Стрелка вверх */
+.icon_arrow-up {
+  position: absolute;
+  width: 13px;
+  height: 1.2px;
+  border-radius: 1px;
+  top: 13px;
+  right: 7px;
+  /* background-color: rgba(0, 0, 0, 0.08); */
+  margin: auto;
+  transform: rotate(90deg);
+}
+.icon_arrow-up:before, .icon_arrow-up:after {
+  position: absolute;
+  content: "";
+  width: 8px;
+  height: 1px;
+  /* background-color: rgba(0, 0, 0, 0.08); */
+  top: 0px;
+  border-radius: 1px;
+}
+.icon_arrow-up:before {
+  transform: rotate(45deg);
+  top: 3px;
+  right: 6px;
+}
+.icon_arrow-up:after {
+  transform: rotate(135deg);
+  top: -3px;
+  right: 6px;
+}
+/* Конец */
+
+
+.icon_arrow-up__activ, .icon_arrow-up__activ:before, .icon_arrow-up__activ:after {
+  background-color: #ff621f;
+}
+.icon_arrow-up__none, .icon_arrow-up__none:before, .icon_arrow-up__none:after {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+.activ_non, .activ_non::before, .activ_non::after {
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: none;
+}
+/*# sourceMappingURL=button.css.map */

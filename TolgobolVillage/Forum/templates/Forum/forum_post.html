@@ -5,6 +5,7 @@
 {% block forum_css %}
 <link rel="stylesheet" href="{% static "css/forum_post.css"  %}">
 <link rel="stylesheet" href="{% static "css/upload.css"  %}">
+<link rel="stylesheet" href="{% static "css/modal.css"  %}">
 {% endblock %}
 
 {% block forum_content %}
@@ -20,8 +21,13 @@
       <h1 class="post_title">{{ post.title }}</h1>
       <p class="post_text">{{ post.text }}</p>
       <div class="post_files">
-        <span class="post_file">файл1</span>
-        <span class="post_file">файл2</span>
+        {% for i in post.files%}
+        {% if i.is_img %}
+        <a id="{{ i.url }}" class="post_file"  name="img_btn">{{ i.name }}</a>
+        {% else %}
+        <a href="{{ i.url }}" class="post_file">{{ i.name }}</a>
+        {% endif %}
+        {% endfor %}
       </div>
       <div class="post_meta">
         <div class="post_author">{{ post.author }}</div>
@@ -55,8 +61,13 @@
 
             <p class="post_text">{{ sms.text }}</p>
             <div class="post_files">
-              <span class="post_file">файл1</span>
-              <span class="post_file">файл2</span>
+              {% for i in sms.files%}
+              {% if i.is_img %}
+              <a id="{{ i.url }}" class="post_file"  name="img_btn">{{ i.name|truncatechars:14 }}</a>
+              {% else %}
+              <a href="{{ i.url }}" class="post_file">{{ i.name|truncatechars:14 }}</a>
+              {% endif %}
+              {% endfor %}
             </div>
             <div class="post_meta" id='post_meta_self'>
               <div class="post_author" name='{{ sms.author_id }}'>{{ sms.author }}</div>
@@ -94,8 +105,13 @@
 
             <p class="post_text">{{ sms.text }}</p>
             <div class="post_files">
-              <span class="post_file">файл1</span>
-              <span class="post_file">файл2</span>
+              {% for i in sms.files%}
+              {% if i.is_img %}
+              <a id="{{ i.url }}" class="post_file"  name="img_btn">{{ i.name|truncatechars:14 }}</a>
+              {% else %}
+              <a href="{{ i.url }}" class="post_file">{{ i.name|truncatechars:14 }}</a>
+              {% endif %}
+              {% endfor %}
             </div>
             <div class="post_meta" id='post_meta_self'>
               <div class="post_author" name='{{ sms.author_id }}'>{{ sms.author }}</div>
@@ -201,4 +217,5 @@
 {% block forum_js %}
 <script src="{% static "/js/forum_post.js"  %}"></script>
 <script src="{% static "/js/upload_files.js"  %}"></script>
+<script src="{% static "/js/modal.js"  %}"></script>
 {% endblock %}

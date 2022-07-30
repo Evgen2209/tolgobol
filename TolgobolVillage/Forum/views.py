@@ -6,7 +6,29 @@ from TolgobolVillage.utils import *
 from .models import *
 from django.http import JsonResponse
 from http import HTTPStatus
+from TolgobolVillage import settings
+import logging
+import shutil
 
+logger = logging.getLogger(__name__)
+
+def str_wrap( *args ):
+    st = ''
+    for i in args:
+        st += str(i)+' '
+        return st
+    
+def log( *args ):
+    logger.info( str_wrap( *args ) )
+def error( *args ):
+    logger.error( str_wrap( *args ) )
+def warning( *args ):
+    logger.warning( str_wrap( *args ) )
+def exception( *args ):
+    logger.exception( str_wrap( *args ) )
+def debug( *args ):
+    logger.debug( str_wrap( *args ) )
+    
 class ForumNavPage( DataMixin, TemplateView ):
     #form = ProductForm
     template_name = 'Forum/forum_nav.html'
@@ -110,6 +132,10 @@ class ForumPost( DataMixin, TemplateView ):
             item['author'] = sms.author 
             item['author_id'] = sms.author_id 
             item['related_message'] = sms.get_related_message()
+            files = []
+            for f in sms.messagefile_set.all():
+                files.append( {'name': f.file_name(), 'url': f.path.url, 'is_img': f.is_image()} )
+            item['files'] = files
             if sms.update_date == sms.date:
                 item['date'] = sms.date
             else:
@@ -118,6 +144,7 @@ class ForumPost( DataMixin, TemplateView ):
                 if self.request.user.id == sms.author.id:
                     item['self'] = True
             messages.append( item )
+            print(item)
         result['messages'] = messages
         return result
 
@@ -133,6 +160,7 @@ class ForumService( View ):
     def dispatch(self, request, *args, **kwargs):
         service_method = request.headers.get( 'X-Requested-MethodName', None ) 
         handler_name = self.mainservice_method_alias.get( service_method, None )
+        log( service_method, request.POST )
         if handler_name:
             handler = getattr(
                 self, handler_name, self.http_method_not_allowed
@@ -166,14 +194,32 @@ class ForumService( View ):
         params['text'] = text
         params['author'] = request.user
         
+        files = request.POST.get('files', None)
         try:
-            d = Message.objects.create( **params )
-        except:
-            print('ХЗ че произошло')
-            return JsonResponse( result )
+            m = Message.objects.create( **params )
+            if files:
+                files = files.split(',')
+                for i in files:
+                    f = FileTmp.objects.get( id=int(i) )
+                    MessageFile.objects.create( message=m, path=self.copy_file(f, m.id) )
+        except Exception as e:
+            exception(e)
+            return JsonResponse( {"error": e}, status=500 )
         result['success'] = 'Сообщение сохранено'
         return JsonResponse( result )
 
+    def copy_file( self, tmp_file, m_id ):
+        tmp_path = tmp_file.tmp_path
+        name = tmp_file.file_name
+        nev_path_folder = os.path.join( settings.MEDIA_ROOT, 'Forum_files', str(m_id) )
+        if not os.path.exists( nev_path_folder ):
+            os.makedirs(nev_path_folder)
+
+        nev_path = os.path.join( nev_path_folder, name )
+        shutil.copyfile( tmp_path, nev_path )
+        tmp_file.delete()
+        return nev_path
+            
     def update_message( self, request):
         if not request.user.is_authenticated:
             return JsonResponse( {"error": "Необходима авторизация"}, status=500 )

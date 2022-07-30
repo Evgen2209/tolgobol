@@ -212,20 +212,30 @@ LOGGING = {
     'loggers': {
         '': {
             'level': 'DEBUG',
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
             'propagate': True
         },
          'django': {
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
             'propagate': True,
         },
         'django.request': {
             'level': 'DEBUG',
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
             'propagate': True,
         },
         'MainService': {
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'Forum': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'AuthService': {
+            'handlers': ['file', 'console'],
             'level': 'DEBUG',
             'propagate': True,
         },

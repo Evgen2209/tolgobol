@@ -29,7 +29,7 @@
           <h3 class="item-appreciate__title">{{ item.title }}</h3>
         </div>
         <div class="item-appreciate__text">{{ item.preview_text|safe }}</div>
-        <div class="comment-button"><button class="button" id="{{ item.id }}">Читать далее</button></div>
+        <div title="" class="button_control button_simple" id="{{ item.id }}"><span class="button_text">Читать дальше</span></div>
       </div>
     </div>
     {% endfor %}
@@ -44,7 +44,7 @@
               <label class="form-group">
 
                 <input name="file" type="file" class="main_input_file" id="fileupload" />
-                <div class="upload_form_btn">Прикрепить</div>
+                <div title="" class="button_control button_simple"><span class="button_text">Прикрепить</span></div>
               </label>
 
             </div>

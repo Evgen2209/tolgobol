@@ -81,7 +81,6 @@ function respons_btn()
             post_data = document.createElement( 'div' )
             post_data.classList.add( 'post_data' )
             post_data.innerText = post_data_el.innerText
-            console.log( post_data_el)
             delet_parent_sms = document.createElement( 'a' )
             delet_parent_sms.classList.add( 'delet_parent_sms' )
             delet_parent_sms.innerText = 'Открепить'
@@ -147,13 +146,15 @@ function success_send_message( data )
 
 function send_ajax( data, method_name, func_success )
 {
-    console.log( data, 'data' )
     $.ajax( {
-        // запрос на список квартир
         url: '/forum/forumservice/',
-        method: 'post',
+        type: 'POST',
         dataType: 'json',
+        cache: false,
+        processData: false,
+        contentType: false,
         data: data,
+        // запрос на список квартир
         headers: {
             "X-Requested-MethodName": method_name
         },
@@ -175,16 +176,15 @@ function send_message()
     text = panel.querySelector( 'textarea' ).value
     if( text )
     {
-        data = {}
+        data = new FormData()
         
         respons_el = panel.querySelector( '.respons_message' )
         if( respons_el )
         {
-            data.related_message = respons_el.getAttribute( 'id' )
-            data.post = document.getElementById( 'post_wrapper' ).getAttribute( 'name' )
+            data.append( 'related_message', respons_el.getAttribute( 'id' ) )
         }
         
-        files_el = document.getElementsByName('progres_item')
+        files_el = document.getElementsByClassName('progres_item')
         file = []
         for( let el of files_el )
         {
@@ -195,8 +195,9 @@ function send_message()
             }
             
         }
-        data.text = text
-        data.files = file
+        data.append( 'post', document.getElementById( 'post_wrapper' ).getAttribute( 'name' ) )
+        data.append( 'text', text )
+        data.append( 'files', file )
         send_ajax( data, 'ForumService.SendMessage', success_send_message )
         //Файлы
     }
@@ -242,7 +243,6 @@ function update_btn()
         date = {}
         date.text = area.value
         date.post = post.getAttribute('id')
-        console.log(post.querySelector( '.post_author' ))
         date.author = post.querySelector( '.post_meta' ).querySelector( '.post_author' ).getAttribute('name')
         func_success = function()
         {
@@ -312,3 +312,19 @@ function init_delet_btn()
 }
 
 init_delet_btn()
+
+function img_btn()
+{
+    create_modal( this.getAttribute( 'id' ), true )
+}
+
+function init_img_btn()
+{
+    btns = document.getElementsByName( "img_btn" )
+    for( let item of btns )
+    {
+        item.onclick = img_btn
+    }
+
+}
+init_img_btn()
