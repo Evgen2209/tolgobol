@@ -193,12 +193,17 @@ class ForumService( View ):
         
         files = request.POST.get('files', None)
         try:
+            log('Создаю сообщение')
             m = Message.objects.create( **params )
             if files:
+                
                 files = files.split(',')
                 for i in files:
+                    log('сохраняю файл')
                     f = FileTmp.objects.get( id=int(i) )
+                    log('сохраняю файл')
                     MessageFile.objects.create( message=m, path=self.copy_file(f, m.id) )
+                    log('сохраняю файл')
         except Exception as e:
             exception(e)
             return JsonResponse( {"error": e}, status=500 )
