@@ -226,7 +226,7 @@ class ForumService( View ):
         log("СКОПИРОВАЛ")
         tmp_file.delete()
         log("УДАЛИЛ ИЗ БД")
-        return nev_path
+        return os.path.relpath( nev_path, settings.MEDIA_ROOT )
             
     def update_message( self, request):
         if not request.user.is_authenticated:
