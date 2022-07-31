@@ -609,9 +609,10 @@ def forum():
 #vvod()
 #forum()
 
-
    
 
 
 import os
-print(os.environ['PATH'].split(';'))
+p = r'home/g/gorbunmu/tolgobol-village.ru/public_html/TolgobolVillage/media/Forum_files/44/WarRobots_sample.jpg'
+print(os.path.relpath(p, start=r'home/g/gorbunmu/tolgobol-village.ru/public_html/TolgobolVillage/media'))
+

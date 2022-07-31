@@ -269,3 +269,6 @@ def exception_hook( exc_type, exc_value, tb ):
     logger.exception( res )
     return res  
 sys.excepthook = exception_hook 
+
+from django.utils.timezone import activate
+activate(TIME_ZONE)

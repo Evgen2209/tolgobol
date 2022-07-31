@@ -190,20 +190,19 @@ class ForumService( View ):
         params['post'] = Post.objects.get( id=int( post ) )
         params['text'] = text
         params['author'] = request.user
+        date = timezone.now()
+        params['date'] = date
+        params['update_date'] = date
         
         files = request.POST.get('files', None)
         try:
-            log('Создаю сообщение')
             m = Message.objects.create( **params )
             if files:
                 
                 files = files.split(',')
                 for i in files:
-                    log('сохраняю файл')
                     f = FileTmp.objects.get( id=int(i) )
-                    log('сохраняю файл')
                     MessageFile.objects.create( message=m, path=self.copy_file(f, m.id) )
-                    log('сохраняю файл')
         except Exception as e:
             exception(e)
             return JsonResponse( {"error": e}, status=500 )
@@ -211,21 +210,14 @@ class ForumService( View ):
         return JsonResponse( result )
 
     def copy_file( self, tmp_file, m_id ):
-        log('начало')
         tmp_path = tmp_file.tmp_path
         name = tmp_file.file_name
         nev_path_folder = os.path.join( settings.MEDIA_ROOT, 'Forum_files', str(m_id) )
-        log(nev_path_folder, 'nev_path_folder')
         if not os.path.exists( nev_path_folder ):
-            log(nev_path_folder, 'НЕ СУЩЕСТВУЕТ')
             os.makedirs(nev_path_folder)
-        log("СОЗДАЛ")
         nev_path = os.path.join( nev_path_folder, name )
-        log(nev_path,"nev_path")
         shutil.copyfile( tmp_path, nev_path )
-        log("СКОПИРОВАЛ")
         tmp_file.delete()
-        log("УДАЛИЛ ИЗ БД")
         return os.path.relpath( nev_path, settings.MEDIA_ROOT )
             
     def update_message( self, request):

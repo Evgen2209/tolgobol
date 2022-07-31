@@ -114,5 +114,6 @@ class MessageFile( models.Model ):
         img = (
             '.jpg',
             '.png',
+            '.jpeg',
         )
         return self.path.name.endswith( img )

@@ -30,7 +30,7 @@ function create_modal_insert( id )
             adres_id: document.querySelector('.modal_container').querySelector('.adress').getAttribute('name')
         }
         send_ajax( '/mainservise/', data, 'MainService.InsertCollectOnMonths', function(data){
-            console.log( wrapper_modal.getAttribute('id') )
+            document.getElementById('overlay-modal').remove()
         } )
     }
 
