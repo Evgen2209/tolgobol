@@ -276,7 +276,6 @@ class ForumService( View ):
         if not request.user.is_authenticated:
             return JsonResponse( {"error": "Необходима авторизация"}, status=500 )
         result = {}
-        print( request.POST )
         section_id = request.POST.get( 'section_id', None )
         title = request.POST.get( 'title', None )
         text = request.POST.get( 'text', None )
@@ -297,7 +296,6 @@ class ForumService( View ):
         params['date'] = date
         params['update_date'] = date
         files = request.POST.get('files', None)
-        print(params)
         m = Post.objects.create( **params )
         if files:
             
@@ -306,7 +304,6 @@ class ForumService( View ):
                 f = FileTmp.objects.get( id=int(i) )
                 PostFile.objects.create( post=m, path=self.copy_file(f, 'post_'+str(m.id) ) )
         result['url'] = reverse_lazy( 'post', kwargs={'section_id':str(section_id), 'post_id':str(m.id) }  )
-        print(result)
         return JsonResponse( result )
 
 class PostCreateForm( DataMixin, TemplateView ):
@@ -316,7 +313,6 @@ class PostCreateForm( DataMixin, TemplateView ):
     title = _("Поселок Толгоболь \ Форум")
 
     def get_context_data( self, *, object_list=None, **kwargs ):
-        print(kwargs)
         c_super = super().get_context_data(**kwargs)
         c_def = self.get_user_context()
         c_def[ 'title' ] = self.title

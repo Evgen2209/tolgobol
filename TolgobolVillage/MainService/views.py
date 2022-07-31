@@ -11,6 +11,7 @@ from datetime import datetime
 from django.utils import timezone
 from Forum.models import *
 import logging
+from django.urls.base import reverse_lazy
 
 logger = logging.getLogger(__name__)
 
@@ -56,6 +57,7 @@ class HomePage( DataMixin, TemplateView ):
                 item['preview_text'] = i.text
                 item['date'] = i.date
                 item['id'] = i.id
+                item['url'] = reverse_lazy( 'post', kwargs={'section_id':str(news[0].id), 'post_id':str(i.id) }  )
                 result.append( item )
         return result
 
@@ -82,7 +84,6 @@ class ImportantPage( DataMixin, TemplateView ):
             item = {}
             item['title'] = i.title
             if i.comment != '':
-                print('есть')
                 item['comment'] = i.comment
             items = []
             for it in i.contactfield_set.all():
@@ -276,10 +277,8 @@ class UploadServise( View ):
     }
     
     def dispatch(self, request, *args, **kwargs):
-        print()
         service_method = request.headers.get( 'X-Requested-MethodName', None ) 
         handler_name = self.mainservice_method_alias.get( service_method, None )
-        print( service_method, request.POST )
         if handler_name:
             handler = getattr(
                 self, handler_name, self.http_method_not_allowed

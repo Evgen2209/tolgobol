@@ -233,7 +233,6 @@ class AuthService( View ):
         return JsonResponse(response)
 
     def register( self, request ):
-        print(request.POST)
         invite = self.request.POST.get( 'invite', None )
         users = User.objects.filter( adres_id=self.request.POST['adres'] )
         is_invete = False

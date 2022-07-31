@@ -29,7 +29,7 @@
           <h3 class="item-appreciate__title">{{ item.title }}</h3>
         </div>
         <div class="item-appreciate__text">{{ item.preview_text|safe }}</div>
-        <div title="" class="button_control button_simple" id="{{ item.id }}"><span class="button_text">Читать дальше</span></div>
+        <a title="" class="button_control button_simple" id="{{ item.id }}" href="{{ item.url }}"><span class="button_text">Читать дальше</span></a>
       </div>
     </div>
     {% endfor %}

@@ -82,13 +82,6 @@ class AuthRegisterUserForm(  UserCreationForm ):
             raise forms.ValidationError( _('Разрешены только латинские буквы') )
         return cd['password2']
     
-    # def clean_adres( self ):
-    #     print(self.request, 'self.cleaned_data')
-    #     user = User.objects.filter( adres_id=self.cleaned_data['adres'] )
-    #     if User.objects.filter( adres_id=self.cleaned_data['adres'] ).count():
-    #         raise ValidationError( _(f'Пользователь с таким адресом уже существует') )
-    #     return self.cleaned_data['adres']
-
     def clean_telephon( self ):
         if User.objects.filter( telephon=self.cleaned_data['telephon'] ).count():
             raise ValidationError( _(f'Такой телефон уже существует') )
