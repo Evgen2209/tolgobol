@@ -60,3 +60,25 @@ function create_modal( text, is_img=false )
   document.body.classList.toggle('_lock')
   document.body.appendChild( overlay );
 }
+
+function create_img_modal( src )
+{
+  div = document.createElement('div')
+  div.classList.add( "modal-img" )
+  span = document.createElement('span')
+  span.classList.add( "modal_close" )
+  span.innerHTML = '×'
+  img = document.createElement('img')
+  img.classList.add( "modal__img" )
+  img.src = src
+
+  span.onclick = function() { 
+    div.remove()
+    document.body.classList.toggle('_lock')
+  }
+  div.appendChild( span )
+  div.appendChild( img )
+  document.body.classList.toggle('_lock')
+  document.body.appendChild( div )
+}
+

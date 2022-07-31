@@ -23,7 +23,7 @@
       <div class="post_files">
         {% for i in post.files%}
         {% if i.is_img %}
-        <a id="{{ i.url }}" class="post_file"  name="img_btn">{{ i.name }}</a>
+        <a  src="{{ i.url }}" class="post_file" name="img_btn">{{ i.name|truncatechars:14 }}</a>
         {% else %}
         <a href="{{ i.url }}" class="post_file">{{ i.name }}</a>
         {% endif %}
@@ -63,7 +63,7 @@
             <div class="post_files">
               {% for i in sms.files%}
               {% if i.is_img %}
-              <a id="{{ i.url }}" class="post_file"  name="img_btn">{{ i.name|truncatechars:14 }}</a>
+              <a  src="{{ i.url }}" class="post_file" name="img_btn">{{ i.name|truncatechars:14 }}</a>
               {% else %}
               <a href="{{ i.url }}" class="post_file">{{ i.name|truncatechars:14 }}</a>
               {% endif %}
@@ -107,7 +107,7 @@
             <div class="post_files">
               {% for i in sms.files%}
               {% if i.is_img %}
-              <a id="{{ i.url }}" class="post_file"  name="img_btn">{{ i.name|truncatechars:14 }}</a>
+              <a  src="{{ i.url }}" class="post_file" name="img_btn">{{ i.name|truncatechars:14 }}</a>
               {% else %}
               <a href="{{ i.url }}" class="post_file">{{ i.name|truncatechars:14 }}</a>
               {% endif %}

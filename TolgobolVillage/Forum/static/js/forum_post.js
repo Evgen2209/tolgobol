@@ -313,17 +313,12 @@ function init_delet_btn()
 
 init_delet_btn()
 
-function img_btn()
-{
-    create_modal( this.getAttribute( 'id' ), true )
-}
 
 function init_img_btn()
 {
-    btns = document.getElementsByName( "img_btn" )
-    for( let item of btns )
+    for( let el of document.getElementsByName("img_btn") )
     {
-        item.onclick = img_btn
+      el.onclick = function(){ create_img_modal( el.getAttribute('src') ) }
     }
 
 }
