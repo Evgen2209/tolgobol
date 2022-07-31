@@ -59,3 +59,7 @@
 .feedback_adres:hover {
   color: blue;
 }
+.red_border {
+  border: 1px solid #ff000078;
+  border-radius: 15px;
+}

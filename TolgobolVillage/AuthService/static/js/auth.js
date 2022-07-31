@@ -82,6 +82,12 @@ function register_init() {
         return
     target.onclick =
         function(e){
+            approval = document.getElementById("approval")
+            if( !approval.checked )
+            {
+                approval.parentNode.classList.add( 'red_border' )
+                return
+            }
             email = document.getElementById("email").value
             auth_data = {
                 "adres": document.getElementById("adres").getAttribute('name'),
@@ -94,6 +100,7 @@ function register_init() {
                 "password2": document.getElementById("password2").value,
                 "birthday": document.getElementById("birthday").value,
                 "telephon": document.getElementById("telephon").value,
+                "approval": approval.checked,
             }
             if( email )
             {
