@@ -194,3 +194,37 @@
 .hide {
   display: none;
 }
+
+
+.forum_nav_wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 5px;
+  padding-right: 5px;
+}
+
+
+.input_title {
+  display: block;
+  border-radius: 24px;
+  margin: 10px;
+  border: 1px solid #25244942;
+  padding: 7px;
+  width: 90%;
+}
+.input_textarea {
+  display: block;
+  border-radius: 24px;
+  margin: 10px;
+  border: 1px solid #25244942;
+  padding: 10px;
+  width: 90%;
+  height: 220px;
+  resize: none;
+}
+.button_wrap {
+  padding: 10px;
+}
+.upload_btn {
+  margin-left: 10px;
+}

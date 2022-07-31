@@ -22,7 +22,7 @@
               <form action="" method="post" class="form-center" id='login_form' >
                 {% csrf_token %}
                 <input name={{ form.username.name }} class="input" id="" placeholder="Логин">
-                <input name={{ form.password.name }} class="input" id="" placeholder="Пароль">
+                <input name={{ form.password.name }} class="input" id="" placeholder="Пароль" type="password">
                 <a href="" class="linc-password">Забыли пароль?</a>
                 <button id="login_btn" type="submit" class="button login_btn" href="{% url 'auth' %}?next={{ request.PATH_INFO }}">Авторизоваться</button>
               </form>
@@ -40,7 +40,7 @@
                 <p>Добро пожаловать на страницу регистрации.</p>
                 <p>Все данные строго конфидициальны и хранятся в зашифрованном виде.</p>
                 <p>Если во вашему адресу уже кто то зарегистрировался, попроситу у него ссылку для приглашения.</p>
-                <div class="adress" id="adres">
+                {% comment %} <div class="adress" id="adres">
                   <div class="drop-list strit">
                     <div onclick="drop_list(this)" class="drop-list-btn" id="strit_id">Улица*</div>
                     <div id="drop-list-content" class="drop-list-content strit">
@@ -59,7 +59,7 @@
                     <div id="drop_list_content_kv" class="drop-list-content house">
                     </div>
                   </div>                     
-                </div>
+                </div> {% endcomment %}
                 <a class='feedback_adres' id='feedback_adres'>Адреса нет в списке</a>
                 <div class="fio">
                   <div>
@@ -74,11 +74,11 @@
                 </div>
                 <p class="auth-help">Логин и пароль должен состоять из латинских букв и цифр</p>
                 <input name={{ register_form.username.name }} class="input" id="{{ register_form.username.name }}" placeholder="Логин*">
-                <input name={{ register_form.password1.name }} class="input" id="{{ register_form.password1.name }}" placeholder="Пароль*">
-                <input name={{ register_form.password2.name }} class="input" id="{{ register_form.password2.name }}" placeholder="Подтверждение пароля*">
-                <input name={{ register_form.birthday.name }} class="input birthday" id="{{ register_form.birthday.name }}" placeholder="День рождения">
-                <input name={{ register_form.email.name }} class="input" id="{{ register_form.email.name }}" placeholder="Email">
-                <input name={{ register_form.telephon.name }} class="input" id="{{ register_form.telephon.name }}" placeholder="Телефон">
+                <input name={{ register_form.password1.name }} class="input" id="{{ register_form.password1.name }}" placeholder="Пароль*" type="password">
+                <input name={{ register_form.password2.name }} class="input" id="{{ register_form.password2.name }}" placeholder="Подтверждение пароля*" type="password">
+                <input name={{ register_form.birthday.name }} class="input birthday" id="{{ register_form.birthday.name }}" placeholder="День рождения" type="date">
+                <input name={{ register_form.email.name }} class="input" id="{{ register_form.email.name }}" placeholder="Email" type="email">
+                <input name={{ register_form.telephon.name }} class="input" id="{{ register_form.telephon.name }}" placeholder="Телефон" type="tel">
                 <p class="auth-help">Телефон необходим что бы в случае чаго староста мог с вами связаться</p>
                 <div class="contract">
                   <input type="checkbox" name="" class="input" id="">
@@ -95,6 +95,7 @@
 {% endblock %}
 
 {% block js %}
+  <script src="{% static "/js/adres_component.js"  %}"></script>
   <script src="{% static "js/auth.js" %}"></script>
   <script src="{% static "js/tabs.js" %}"></script>
   <script src="{% static "js/drop_list.js" %}"></script>

@@ -132,29 +132,14 @@
   {% endif %}
 
 </div>
-
+    {% if user.is_authenticated %}
     <div class="output_wrapper">
       <div class="hide_panel">
         <button class="hight_btn" id="hight_btn">Свернуть</button>
       </div>
       <div class="output_panel open_panel" id="output_panel">
-        {% comment %} <div class="respons_message parent_text">
-          <div class="perent_wrapper">
-            <div class="parent_text">
-              inventore quod aliquam similique blanditiis assumenda sequi eveniet id, qui voluptate ea corrupti expedita culpa cum sed!
-            </div>
-            <div class="parent_meta">
-              <div class="post_author">Автор</div>
-              <div class="post_data">Дата</div>
-            </div>
-          </div>
-          <a href="" class="delet_parent_sms">Открепить</a>
-        </div> {% endcomment %}
         <div class="output_message_options">
           <div>
-            {% comment %} <button class="btn_output">Прикрепить</button> {% endcomment %}
-
-
 
             <div class="upload_block" >
               <form enctype="multipart/form-data" method="POST" action="">
@@ -172,31 +157,13 @@
         
                     <div class="progres_wrapper">
         
-                      {% comment %} <div class="progres_item">
-                        <input class="f_name" type="text" id="f_name" value="Файл не выбран." disabled />
-                        <div class="progres_base">
-                          <div class="progres_current" style="width: 0%"></div>
-                        </div>
-                      </div> {% endcomment %}
-        
                     </div>
         
                     
                   </div>
         
-                  {% comment %} <div class="form-group">
-                      <input type="file" class="change_file_input form-control" id="fileupload" placeholder="">
-                      <div class="progres_base">
-                        <div class="progres_current" style="width: 77%">
-                        </div>
-                      </div>
-                  </div> {% endcomment %}
               </form>
             </div>
-
-
-
-
 
           </div>
           <div>
@@ -208,6 +175,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
 
 
 

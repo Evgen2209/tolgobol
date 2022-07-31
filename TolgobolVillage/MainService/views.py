@@ -48,15 +48,15 @@ class HomePage( DataMixin, TemplateView ):
     
     def get_news_context( self ):
         result = []
-        news = News.objects.filter(publish=True)
-        for i in news:
-            item = {}
-            item['title'] = i.title
-            item['preview_text'] = i.preview_text
-            item['date'] = i.date
-            item['logo'] = i.logo
-            item['id'] = i.id
-            result.append( item )
+        news = Section.objects.filter(is_news=True)
+        if news.count():
+            for i in news[0].post_set.filter(is_delet=False):
+                item = {}
+                item['title'] = i.title
+                item['preview_text'] = i.text
+                item['date'] = i.date
+                item['id'] = i.id
+                result.append( item )
         return result
 
 class ImportantPage( DataMixin, TemplateView ):
@@ -68,13 +68,28 @@ class ImportantPage( DataMixin, TemplateView ):
     def get_context_data( self, *, object_list=None, **kwargs ):
         c_super = super().get_context_data(**kwargs)
         c_def = self.get_user_context()
-        c_def['chifs'] = AnyContact.objects.filter( is_chief=True )
-        c_def['anys'] = AnyContact.objects.filter( is_chief=False )
+        c_def['chifs'] = self.get_contact( is_chief=True )
+        c_def['anys'] = self.get_contact( is_chief=False )
         c_def[ 'title' ] = self.title
         c_def[ 'votings' ] = self.get_votings_context()
         c_def.update( c_super )
         return c_def
     
+    def get_contact( self, is_chief ):
+        contacts = AnyContact.objects.filter( is_chief=is_chief )
+        res = []
+        for i in contacts:
+            item = {}
+            item['title'] = i.title
+            if i.comment != '':
+                print('есть')
+                item['comment'] = i.comment
+            items = []
+            for it in i.contactfield_set.all():
+                items.append( {'key':it.key, 'value': it.value} )
+            item['items'] = items
+            res.append( item )
+        return res
     def get_votings_context( self ):
         result = []
         votings = Voting.objects.all()
@@ -261,9 +276,10 @@ class UploadServise( View ):
     }
     
     def dispatch(self, request, *args, **kwargs):
+        print()
         service_method = request.headers.get( 'X-Requested-MethodName', None ) 
         handler_name = self.mainservice_method_alias.get( service_method, None )
-        log( service_method, request.POST )
+        print( service_method, request.POST )
         if handler_name:
             handler = getattr(
                 self, handler_name, self.http_method_not_allowed

@@ -40,7 +40,7 @@
   margin-bottom: 10px;
   width: 100%;
   height: 100%;
-
+  white-space: pre-line;
 }
 
 .post_files {
@@ -214,7 +214,7 @@
   background-color: rgba(75, 174, 255, 0.664);
 }
 .message_area {
-  max-height: 60vh;
+  max-height: 70vh;
   overflow-y: scroll;
 }
 .message_hight {

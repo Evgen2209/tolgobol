@@ -12,10 +12,38 @@
 
       <main class="wrapper">
 
-<div title="" class="round-button_control activ_non"><span class="icon_arrow-up icon_arrow-up__none"></span></div>
+<!-- <div title="" class="round-button_control activ_non"><span class="icon_arrow-up icon_arrow-up__none"></span></div> -->
+<a id="myImg" src="11.jpg" name="img_btn">dddd</a>
+
+
       </main>
 
+      <script>
+        // Get the modal
+        function create_img_modal( src )
+        {
+          div = document.createElement('div')
+          div.classList.add( "modal-img" )
+          span = document.createElement('span')
+          span.classList.add( "modal_close" )
+          span.innerHTML = '×'
+          img = document.createElement('img')
+          img.classList.add( "modal__img" )
+          img.src = src
+  
+          span.onclick = function() { 
+            div.remove()
+          }
+          div.appendChild( span )
+          div.appendChild( img )
+          document.body.appendChild( div )
+        }
+        for( let el of document.getElementsByName("img_btn") )
+        {
+          el.onclick = function(){ create_img_modal( el.getAttribute('src') ) }
+        }
 
+        </script>
     <script src="js/slider.js"></script>
   </body>
 </html>

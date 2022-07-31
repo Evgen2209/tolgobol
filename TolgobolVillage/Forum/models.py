@@ -25,6 +25,7 @@ class NewsFile( models.Model ):
 
 class Section( models.Model ):
     name = models.CharField( _('Название раздела'), max_length=100, blank=False, unique=False )
+    is_news =  models.BooleanField( _('Является ли новостью'), blank=False, default=False )
     
     def get_last_message_on_post( self ):
         result = None
@@ -72,6 +73,14 @@ class PostFile( models.Model ):
     
     def file_name( self ):
         return os.path.basename( self.path.name )
+    
+    def is_image( self ):
+        img = (
+            '.jpg',
+            '.png',
+            '.jpeg',
+        )
+        return self.path.name.endswith( img )
 
 class Message( models.Model ):
     post = models.ForeignKey( Post, on_delete = models.CASCADE, blank=False )

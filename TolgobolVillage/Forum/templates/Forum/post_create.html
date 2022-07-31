@@ -1,0 +1,57 @@
+{% extends 'Forum/forum_base.html' %}
+
+{% load static %}
+
+{% block forum_css %}
+<link rel="stylesheet" href="{% static "/css/upload.css"  %}">
+{% endblock %}
+
+{% block forum_content %}
+<div class="forum_nav_wrapper">
+  <a class="return" href="{% url 'forum' %}{{ section_id }}">
+    <div class="arrow_2" href="{% url 'forum' %}">
+      <div></div>
+    </div>
+    <span>Назад</span>
+  </a>
+</div>
+
+
+<form action="{% url 'authservice' %}" method="post" class="form-center" id="{{ section_id }}" >
+  {% csrf_token %}
+  <input id="title" class="input_title" id="" placeholder="Тема">
+  <textarea id="text" class="input_textarea" id="" placeholder="Текст"></textarea>
+
+  <form>
+    <div class="upload_block" >
+          
+          <div class="upload_form_wrapper">
+            <div>
+
+              <label class="form-group">
+
+                <input name="file" type="file" class="main_input_file" id="fileupload" />
+                <div title="" class="button_control button_simple upload_btn"><span class="button_text">Прикрепить</span></div>
+              </label>
+
+            </div>
+
+            <div class="progres_wrapper">
+
+            </div>
+
+            
+          </div>
+
+    </div>
+  </form>
+
+
+  <div class="button_wrap"><a title="" class="button_control button_simple" id="create_post" name="{{ section_id }}"><span class="button_text">Создать</span></a></div>
+</form>
+{% endblock %}
+
+{% block forum_js %}
+<script src="{% static "/js/post_create.js"  %}"></script>
+<script src="{% static "/js/upload_files.js"  %}"></script>
+{% endblock %}

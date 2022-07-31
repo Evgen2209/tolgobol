@@ -9,7 +9,7 @@ from http import HTTPStatus
 from TolgobolVillage import settings
 import logging
 import shutil
-
+from django.urls.base import reverse_lazy
 logger = logging.getLogger(__name__)
 
 def str_wrap( *args ):
@@ -72,6 +72,7 @@ class ForumSection( DataMixin, TemplateView ):
         c_def[ 'title' ] = self.title
         c_def[ 'posts' ] = self.get_posts_context( section_id )
         c_def[ 'section_id' ] = section_id
+        c_def[ 'is_news' ] = Section.objects.get(id=section_id).is_news
         c_def.update( c_super )
         return c_def
     
@@ -120,7 +121,10 @@ class ForumPost( DataMixin, TemplateView ):
                 if self.request.user.id == post.author.id:
                     result['self'] = True
 
-            #result['files']
+            post_files = []
+            for f in post.postfile_set.all():
+                post_files.append( {'name': f.file_name(), 'url': f.path.url, 'is_img': f.is_image()} )
+            result['files'] = post_files
         except:
             return result
         messages = []
@@ -153,6 +157,7 @@ class ForumService( View ):
         'ForumService.SendMessage': 'send_message',
         'ForumService.UpdateMessage': 'update_message',
         'ForumService.DeletMessage': 'delete_message',
+        'ForumService.PostCreate': 'post_create',
     }
     
     def dispatch(self, request, *args, **kwargs):
@@ -267,3 +272,57 @@ class ForumService( View ):
         result['success'] = 'Сообщение удалено'
         return JsonResponse( result )
 
+    def post_create( self, request ):
+        if not request.user.is_authenticated:
+            return JsonResponse( {"error": "Необходима авторизация"}, status=500 )
+        result = {}
+        print( request.POST )
+        section_id = request.POST.get( 'section_id', None )
+        title = request.POST.get( 'title', None )
+        text = request.POST.get( 'text', None )
+        params = {}
+        error = []
+        if not section_id:
+            error.append( 'Не указан section_id' )
+        params['section_id'] = section_id
+        if not title:
+            error.append( 'Не указан title' )
+        params['title'] = title
+        if not text:
+            error.append( 'Не указан text' )
+        params['text'] = text
+        
+        params['author_id'] = request.user.id
+        date = timezone.now()
+        params['date'] = date
+        params['update_date'] = date
+        files = request.POST.get('files', None)
+        print(params)
+        m = Post.objects.create( **params )
+        if files:
+            
+            files = files.split(',')
+            for i in files:
+                f = FileTmp.objects.get( id=int(i) )
+                PostFile.objects.create( post=m, path=self.copy_file(f, 'post_'+str(m.id) ) )
+        result['url'] = reverse_lazy( 'post', kwargs={'section_id':str(section_id), 'post_id':str(m.id) }  )
+        print(result)
+        return JsonResponse( result )
+
+class PostCreateForm( DataMixin, TemplateView ):
+    #form = ProductForm
+    template_name = 'Forum/post_create.html'
+    #model = Product
+    title = _("Поселок Толгоболь \ Форум")
+
+    def get_context_data( self, *, object_list=None, **kwargs ):
+        print(kwargs)
+        c_super = super().get_context_data(**kwargs)
+        c_def = self.get_user_context()
+        c_def[ 'title' ] = self.title
+        c_def[ 'section_id' ] = kwargs['section_id']
+        c_def.update( c_super )
+        return c_def
+    
+    
+    

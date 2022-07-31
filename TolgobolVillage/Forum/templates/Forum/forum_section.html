@@ -6,12 +6,17 @@
 {% endblock %}
 
 {% block forum_content %}
-<a class="return" href="{% url 'forum' %}">
-  <div class="arrow_2" href="{% url 'forum' %}">
-    <div></div>
-  </div>
-  <span>Назад</span>
-</a>
+<div class="forum_nav_wrapper">
+  <a class="return" href="{% url 'forum' %}">
+    <div class="arrow_2" href="{% url 'forum' %}">
+      <div></div>
+    </div>
+    <span>Назад</span>
+  </a>
+  {% if not is_news %}
+  <a title="" class="button_control button_simple" href="{% url 'post_create' section_id=section_id %}"><span class="button_text">+ новая тема</span></a>
+  {% endif %}
+</div>
 
 {% if not posts %}
 <div class="section">

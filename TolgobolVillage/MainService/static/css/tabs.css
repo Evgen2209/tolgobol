@@ -97,6 +97,7 @@
   margin-left: 10px;
   padding-top: 10px;
   margin-bottom: 10px;
+  white-space: pre-line;
 }
 
 .block-content {

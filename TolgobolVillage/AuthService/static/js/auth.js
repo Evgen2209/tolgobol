@@ -360,5 +360,10 @@ function init() {
     savege_auth();
     change_auth();
     feedback_adres();
+    el = document.querySelector(".feedback_adres")
+    if( el )
+    {
+        el.insertAdjacentElement( 'beforeBegin', create_adres_component() )
+    }
 }
 init();

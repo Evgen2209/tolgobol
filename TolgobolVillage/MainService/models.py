@@ -6,16 +6,17 @@ from datetime import date
 from django.utils import timezone
 import os
 
-class ContactField( models.Model ):
-    key = models.CharField( _('Название'), max_length=100, blank=False, unique=False )
-    value = models.CharField( _('Значение'), max_length=1000, blank=False, unique=False )
 
 class AnyContact( models.Model ):
     title = models.CharField( _('Название контакта'), max_length=100, blank=False, unique=False )
     comment = models.CharField( _('Комментарий'), max_length=1000, blank=True, unique=False )
     is_chief = models.BooleanField( _('Является ли старостой'), default=False )
-    contacts = models.ManyToManyField( ContactField, related_name='contact', related_query_name='contacts', blank=True, )
-    
+
+class ContactField( models.Model ):
+    key = models.CharField( _('Название'), max_length=100, blank=False, unique=False )
+    value = models.CharField( _('Значение'), max_length=1000, blank=False, unique=False )
+    contact = models.ForeignKey( AnyContact, on_delete = models.CASCADE )
+
 class Voting( models.Model ):
     title = models.CharField( _('Заголовок'), max_length=100, blank=False, unique=False )
     comment = models.CharField( _('Комментарий'), max_length=10000, blank=True, unique=False )

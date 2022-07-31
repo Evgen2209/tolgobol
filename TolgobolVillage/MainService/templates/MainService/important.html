@@ -23,11 +23,9 @@
               <div class="block-title">
                 {{ any.title }}
               </div>
-              <div class="block-text">
-                {{ any.comment }}
-              </div>
+              <div class="block-text">{{ any.comment }}</div>
               <div class="block-content">
-                {% for any_contact in any.contacts.all %}
+                {% for any_contact in any.items %}
                   <div class="block-content-item">
                     <div class="content-item-key">{{ any_contact.key }}:</div>
                     <div class="content-item-value">{{ any_contact.value }}</div>
@@ -48,9 +46,11 @@
                       <td class="block-sub-title">{{ chif.title }}</td>
                     </tr>
                     <tr>
+                      {% if chif.comment %}
                       <td class="block-text">{{ chif.comment }}</td>
+                      {% endif %}
                     </tr>
-                    {% for contact in chif.contacts.all %}
+                    {% for contact in chif.items %}
                       <tr>
                         <td><a class="content-item-key">{{ contact.key }}</a><a>:</a></td>
                         <td>{{ contact.value }}</td>
@@ -94,7 +94,7 @@
               </div>
               <textarea id="{{ voting.id }}" placeholder = "Можете оставить комментарий" type="text" class="input textarea voting-comment"></textarea>
               <div class="voting-button">
-                <button name={{ voting.id }} class="button voting_send" {{ voting.is_disabled }}>Проголосовать</button>
+                <button name={{ voting.id }} title="" class="button_control button_simple voting_send" {{ voting.is_disabled }}><span class="button_text">Проголосовать</span></button>
               </div>
             </div>
           </div>

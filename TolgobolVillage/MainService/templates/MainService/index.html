@@ -34,49 +34,8 @@
     </div>
     {% endfor %}
 
-
-    <div class="upload_block" style="margin: 0 auto; display: block; margin-top: 100px;">
-      <form enctype="multipart/form-data" method="POST" action="">
-          {% csrf_token %}
-          <div class="upload_form_wrapper">
-            <div>
-
-              <label class="form-group">
-
-                <input name="file" type="file" class="main_input_file" id="fileupload" />
-                <div title="" class="button_control button_simple"><span class="button_text">Прикрепить</span></div>
-              </label>
-
-            </div>
-
-            <div class="progres_wrapper">
-
-              {% comment %} <div class="progres_item">
-                <input class="f_name" type="text" id="f_name" value="Файл не выбран." disabled />
-                <div class="progres_base">
-                  <div class="progres_current" style="width: 0%"></div>
-                </div>
-              </div> {% endcomment %}
-
-            </div>
-
-            
-          </div>
-
-          {% comment %} <div class="form-group">
-              <input type="file" class="change_file_input form-control" id="fileupload" placeholder="">
-              <div class="progres_base">
-                <div class="progres_current" style="width: 77%">
-                </div>
-              </div>
-          </div> {% endcomment %}
-      </form>
-    </div>
-
-
   </div>
 </section>
 {% endblock %}
 {% block js %}
-<script src="{% static "/js/upload_files.js"  %}"></script>
 {% endblock %}

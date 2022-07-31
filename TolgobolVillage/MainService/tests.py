@@ -463,7 +463,7 @@ def sql():
    
    id = 1
    import sqlite3
-   conn = sqlite3.connect(r'D:\сайт поселка\TolgobolVillage\TolgobolVillage.sqlite3')
+   conn = sqlite3.connect(r'D:\tolgobol\TolgobolVillage\TolgobolVillage.sqlite3')
    cur = conn.cursor()
    for strit, value in di.items():
    #Добавили улицу
@@ -511,7 +511,7 @@ def xl():
          return 
    import pandas as pd
    import sqlite3
-   conn = sqlite3.connect(r'D:\сайт поселка\TolgobolVillage\TolgobolVillage.sqlite3')
+   conn = sqlite3.connect(r'D:\tolgobol\TolgobolVillage\TolgobolVillage.sqlite3')
    cur = conn.cursor()
    excel_data = pd.read_excel(r'C:\Users\Evgen\Downloads\Копия Толгоболь .xlsx')
    data = pd.DataFrame(excel_data)
@@ -567,17 +567,30 @@ def xl():
 
 
 def vvod():
-   conn = sqlite3.connect(r'D:\сайт поселка\TolgobolVillage\TolgobolVillage.sqlite3')
+   conn = sqlite3.connect(r'D:\tolgobol\TolgobolVillage\TolgobolVillage.sqlite3')
    cur = conn.cursor()
+   
+   sections = {
+      'Новости': 1,
+      'Вопрос\Ответ': 0,
+      'Обсуждения': 0,
+      'Реклама\Объявления': 0,
+   }
+   for key, val in sections.items():
+      
+      section_sql = f'INSERT INTO Forum_section (name, is_news ) VALUES ( "{key}", {val})'
+      cur.execute(section_sql)
+   
    title = 'Сайт поселка'
-   text = 'nnn'
-   preview_text = 'Уважаемые жильцы Я сделал этот сайт только по своей инициативе и на свои средства. Основной идею было то что бы все консолидировать в одно месте. А именно что бы каждому была доступна информация по состоянию фонда поселка (сколько собранно, сколько потрачено и куда, кто сдает а кто нет). Так же реализовал механизм голосований который позволяет учитывать голос от одной квартиры\дома, да бы не было накрутки :).'\
-   + '<br>И кстати что бы иметь возможность смотреть все разделы целиком необходима авторизация. А что бы было все максимально прозрачно регистрация возможна только с указанием адреса и по приглашению если адрес уже кем то занят.'\
-   + '<br>Признаю я не дизайнер а программист и то в другой области, поэтому получилось как то так. Если у кого то есть предложения то я всегда рад.'
+   text = 'Уважаемые жильцы Я сделал этот сайт только по своей инициативе и на свои средства. Основной идею было то что бы все консолидировать в одно месте. А именно что бы каждому была доступна информация по состоянию фонда поселка (сколько собранно, сколько потрачено и куда, кто сдает а кто нет). Так же реализовал механизм голосований который позволяет учитывать голос от одной квартиры\дома, да бы не было накрутки :).'\
+   + '\nИ кстати что бы иметь возможность смотреть все разделы целиком необходима авторизация. А что бы было все максимально прозрачно регистрация возможна только с указанием адреса и по приглашению если адрес уже кем то занят.'\
+   + '\nПризнаю я не дизайнер а программист и то в другой области, поэтому получилось как то так. Если у кого то есть предложения то я всегда рад.'
    date = '2022-07-22'
-   publish = 1
-   news = f'INSERT INTO Forum_news (title, text, preview_text, date, publish ) VALUES ( "{title}", "{text}","{preview_text}","{date}",{publish} )'
+   is_news = 1
+   news = f'INSERT INTO Forum_post (title, text, date, update_date, is_news, author_id, section_id, is_delet ) VALUES ( "{title}", "{text}","{date}","{date}",{is_news}, 1, 1, 0 )'
    cur.execute(news)
+   
+   
    title = 'Сайт поселка'
    comment = 'Рад буду услышать ваше мнение по поводу сайта. Если он будет полезен то буду его развивать и дальше'
    is_finish = 1
@@ -587,32 +600,42 @@ def vvod():
    for i in voting_item:
       voting_titems_sql = f'INSERT INTO MainService_votingitem (name, voting_id ) VALUES ("{i}", 1)'
       cur.execute(voting_titems_sql)
+      
+# class AnyContact( models.Model ):
+#     title = models.CharField( _('Название контакта'), max_length=100, blank=False, unique=False )
+#     comment = models.CharField( _('Комментарий'), max_length=1000, blank=True, unique=False )
+#     is_chief = models.BooleanField( _('Является ли старостой'), default=False )
+
+# class ContactField( models.Model ):
+#     key = models.CharField( _('Название'), max_length=100, blank=False, unique=False )
+#     value = models.CharField( _('Значение'), max_length=1000, blank=False, unique=False )
+#     contact = models.ForeignKey( AnyContact, on_delete = models.CASCADE )
+
+   contact = (
+      ( 1, 'ул. Казанская ( верх )', 'Юлия Колпакова', 1, [] ),
+      ( 2, 'ул. Успенская', 'Денис Домнин', 1, [] ),
+      ( 3, 'Амбулатория с. Толгоболь', 'с 09:00 до 12:00 с понедельника по пятницу, первая суббота месяца - рабочая', 0, [ ( 'геристратура', '94-32-89' ), ] ),
+      ( 4, 'Амбулатория с. Лесная поляна', 'с 08:00 до 12:00 с понедельника по субботу', 0, [ ( 'геристратура', '765440' ), ] ),
+      ( 5, 'Дежурная ЯрЭнерго', '', 0, [( 'телефон', '88005050115' ),] ),
+      ( 6, 'Парикмахер', 'Варя Портнова.\nЛюбые парикмахерские услуги: мужские, женские стрижки, укладки, прически, окрашивание волос, коррекция и покраска бровей', 0, [( 'телефон', '89159666092' ), ( 'vk', 'vk.com/id258283296' )] )
+   )
+   
+   for i in contact:
+      con_sql = f'INSERT INTO MainService_anycontact (id, title, comment, is_chief ) VALUES ( {i[0]}, "{i[1]}", "{i[2]}",{i[3]} )'
+      cur.execute(con_sql)
+      for b in i[4]:
+         conf_sql = f'INSERT INTO MainService_contactfield (key, value, contact_id ) VALUES ( "{b[0]}", "{b[1]}", {i[0]} )'
+         cur.execute(conf_sql)
+   
    conn.commit()
 
 
-def forum():
-   conn = sqlite3.connect(r'D:\сайт поселка\TolgobolVillage\TolgobolVillage.sqlite3')
-   cur = conn.cursor()
-   sections = [
-      'Новости',
-      'Вопрос\Ответ',
-      'Обсуждения',
-      'Реклама\Объявления',
-   ]
-   for i in sections:
-      sections_sql = f'INSERT INTO Forum_section (name) VALUES ("{i}")'
-      cur.execute(sections_sql)
-   conn.commit()
 
-#sql()
-#xl()
-#vvod()
-#forum()
+# sql()
+# xl()
+vvod()
 
    
 
 
-import os
-p = r'home/g/gorbunmu/tolgobol-village.ru/public_html/TolgobolVillage/media/Forum_files/44/WarRobots_sample.jpg'
-print(os.path.relpath(p, start=r'home/g/gorbunmu/tolgobol-village.ru/public_html/TolgobolVillage/media'))
 
