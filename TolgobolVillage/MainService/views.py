@@ -12,25 +12,24 @@ from django.utils import timezone
 from Forum.models import *
 import logging
 from django.urls.base import reverse_lazy
+from .logger import *
 
-logger = logging.getLogger(__name__)
-
-def str_wrap( *args ):
-    st = ''
-    for i in args:
-        st += str(i)+' '
-        return st
+# def str_wrap( *args ):
+#     st = ''
+#     for i in args:
+#         st += str(i)+' '
+#         return st
     
-def log( *args ):
-    logger.info( str_wrap( *args ) )
-def error( *args ):
-    logger.error( str_wrap( *args ) )
-def warning( *args ):
-    logger.warning( str_wrap( *args ) )
-def exception( *args ):
-    logger.exception( str_wrap( *args ) )
-def debug( *args ):
-    logger.debug( str_wrap( *args ) )
+# def log( *args ):
+#     logger.info( str_wrap( *args ) )
+# def error( *args ):
+#     logger.error( str_wrap( *args ) )
+# def warning( *args ):
+#     logger.warning( str_wrap( *args ) )
+# def exception( *args ):
+#     logger.exception( str_wrap( *args ) )
+# def debug( *args ):
+#     logger.debug( str_wrap( *args ) )
     
 class HomePage( DataMixin, TemplateView ):
     #form = ProductForm
@@ -38,6 +37,7 @@ class HomePage( DataMixin, TemplateView ):
     #model = Product
     title = _("Поселок Толгоболь")
 
+    @logger
     def get_context_data( self, *, object_list=None, **kwargs ):
         
         c_super = super().get_context_data(**kwargs)
@@ -50,6 +50,7 @@ class HomePage( DataMixin, TemplateView ):
     def get_news_context( self ):
         result = []
         news = Section.objects.filter(is_news=True)
+        INFO('TEST')
         if news.count():
             for i in news[0].post_set.filter(is_delet=False):
                 item = {}
@@ -191,7 +192,7 @@ class Mainservice( View ):
     def dispatch(self, request, *args, **kwargs):
         service_method = request.headers.get( 'X-Requested-MethodName', None ) 
         handler_name = self.mainservice_method_alias.get( service_method, None )
-        log( service_method, request.POST )
+        INFO( service_method, request.POST )
         if handler_name:
             handler = getattr(
                 self, handler_name, self.http_method_not_allowed
