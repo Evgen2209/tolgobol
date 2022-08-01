@@ -1,10 +1,10 @@
 import logging, os
-
+from TolgobolVillage import settings
 class Logger( object ):
     
     def __init__( self ):
         self.root_path = os.path.dirname( __file__ )
-        self.log_path = os.path.join( self.root_path, "mylog.log" )
+        self.log_path = os.path.join( settings.BASE_DIR, "mylog.log" )
         self.log_level = logging.DEBUG
         #self.log_level = self.get_log_level()
         base_param = { "filename": self.log_path,
