@@ -10,24 +10,9 @@ from TolgobolVillage import settings
 import logging
 import shutil
 from django.urls.base import reverse_lazy
-logger = logging.getLogger(__name__)
+from MainService.logger import *
+log = logging.getLogger(__name__)
 
-def str_wrap( *args ):
-    st = ''
-    for i in args:
-        st += str(i)+' '
-        return st
-    
-def log( *args ):
-    logger.info( str_wrap( *args ) )
-def error( *args ):
-    logger.error( str_wrap( *args ) )
-def warning( *args ):
-    logger.warning( str_wrap( *args ) )
-def exception( *args ):
-    logger.exception( str_wrap( *args ) )
-def debug( *args ):
-    logger.debug( str_wrap( *args ) )
     
 class ForumNavPage( DataMixin, TemplateView ):
     #form = ProductForm
@@ -35,6 +20,7 @@ class ForumNavPage( DataMixin, TemplateView ):
     #model = Product
     title = _("Поселок Толгоболь \ Форум")
 
+    @logger
     def get_context_data( self, *, object_list=None, **kwargs ):
         c_super = super().get_context_data(**kwargs)
         c_def = self.get_user_context()
@@ -65,6 +51,7 @@ class ForumSection( DataMixin, TemplateView ):
     #model = Product
     title = _("Поселок Толгоболь \ Форум")
 
+    @logger
     def get_context_data( self, *, object_list=None, **kwargs ):
         section_id = kwargs['section_id']
         c_super = super().get_context_data(**kwargs)
@@ -99,6 +86,7 @@ class ForumPost( DataMixin, TemplateView ):
     #model = Product
     title = _("Поселок Толгоболь \ Форум")
 
+    @logger
     def get_context_data( self, *, object_list=None, **kwargs ):
         post_id = kwargs['post_id']
         c_super = super().get_context_data(**kwargs)
@@ -172,6 +160,7 @@ class ForumService( View ):
             handler = self.http_method_not_allowed
         return handler(request, *args, **kwargs)
     
+    @logger
     def send_message( self, request):
         if not request.user.is_authenticated:
             return JsonResponse( {"error": "Необходима авторизация"}, status=500 )
@@ -225,6 +214,7 @@ class ForumService( View ):
         tmp_file.delete()
         return os.path.relpath( nev_path, settings.MEDIA_ROOT )
             
+    @logger
     def update_message( self, request):
         if not request.user.is_authenticated:
             return JsonResponse( {"error": "Необходима авторизация"}, status=500 )
@@ -250,6 +240,7 @@ class ForumService( View ):
         result['success'] = 'Сообщение изменено'
         return JsonResponse( result )
     
+    @logger
     def delete_message( self, request ):
         if not request.user.is_authenticated:
             return JsonResponse( {"error": "Необходима авторизация"}, status=500 )
@@ -272,6 +263,7 @@ class ForumService( View ):
         result['success'] = 'Сообщение удалено'
         return JsonResponse( result )
 
+    @logger
     def post_create( self, request ):
         if not request.user.is_authenticated:
             return JsonResponse( {"error": "Необходима авторизация"}, status=500 )
@@ -312,6 +304,7 @@ class PostCreateForm( DataMixin, TemplateView ):
     #model = Product
     title = _("Поселок Толгоболь \ Форум")
 
+    @logger
     def get_context_data( self, *, object_list=None, **kwargs ):
         c_super = super().get_context_data(**kwargs)
         c_def = self.get_user_context()

@@ -430,7 +430,6 @@ body {
   height: 26px;
   border-radius: 13px;
   border: 1px solid #3ba333;
-  box-shadow: rgb(163 163 163 / 80%) 0px 0px 15px 2px;
   cursor: pointer;
 }
 .add_btn_input:hover {
@@ -468,7 +467,6 @@ body {
   height: 26px;
   border-radius: 13px;
   border: 1px solid #f55858b7;
-  box-shadow: rgb(163 163 163 / 80%) 0px 0px 15px 2px;
   cursor: pointer;
 }
 .del_btn_input:hover {

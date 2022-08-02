@@ -94,7 +94,11 @@
               </div>
               <textarea id="{{ voting.id }}" placeholder = "Можете оставить комментарий" type="text" class="input textarea voting-comment"></textarea>
               <div class="voting-button">
+                {% if voting.is_non_auth or user.is_authenticated %}
                 <button name={{ voting.id }} title="" class="button_control button_simple voting_send" {{ voting.is_disabled }}><span class="button_text">Проголосовать</span></button>
+                {% else %}
+                <p>Для этого логосования необходима авторизация</p>
+                {% endif %}
               </div>
             </div>
           </div>

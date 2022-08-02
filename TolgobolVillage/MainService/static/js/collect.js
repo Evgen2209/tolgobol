@@ -23,7 +23,6 @@ function create_modal_insert( id )
             }
             insert_list.push(buf)
         }
-        console.log( JSON.stringify( insert_list ),'insert_list' )
         data = {
             collect_id: wrapper_modal.getAttribute('id'),
             insert_list: JSON.stringify( insert_list ),

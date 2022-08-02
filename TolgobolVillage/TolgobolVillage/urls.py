@@ -22,8 +22,7 @@ urlpatterns = [
     #path('admin/', admin.site.urls),
     path('', include( 'MainService.urls' ) ),
     path('forum/', include( 'Forum.urls' ) ),
-    path('auth/', include( 'AuthService.urls' ) )
+    path('auth/', include( 'AuthService.urls' ) ),
 ]
-
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #Обработка запросов на /media/

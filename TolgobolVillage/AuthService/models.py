@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, GroupManager
 from django.contrib.auth import validators
 from django.utils.translation import gettext_lazy as _
 import uuid
@@ -42,7 +42,7 @@ class User( AbstractUser ):
     email = models.EmailField( _('Email адрес'), blank=True, null=True )
     male = models.CharField( _('Пол'), max_length=150, blank=False )
     birthday = models.DateField( _('День рождения'), blank=True, null=True )
-    is_starosta = models.BooleanField( _('Является ли старостой'), default=True ) 
+    is_starosta = models.BooleanField( _('Является ли старостой'), default=False ) 
     is_active = models.BooleanField( 
         _('Подтвержден'),
         default=True,
@@ -59,3 +59,6 @@ class User( AbstractUser ):
 
     def __str__(self) -> str:
         return '{} {}'.format( self.first_name, self.last_name )
+    
+    def is_fond_manager( self ):
+        return self.groups.filter(id=1).count()

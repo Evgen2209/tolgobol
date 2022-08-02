@@ -24,7 +24,7 @@
                 <input name={{ form.username.name }} class="input" autocomplete="off" placeholder="Логин">
                 <input name={{ form.password.name }} class="input" autocomplete="off" placeholder="Пароль" type="password">
                 <a href="" class="linc-password">Забыли пароль?</a>
-                <button id="login_btn" type="submit" class="button login_btn" href="{% url 'auth' %}?next={{ request.PATH_INFO }}">Авторизоваться</button>
+                <button type="submit" title="" id="login_btn" class="button_control button_activ" href="{% url 'auth' %}?next={{ request.PATH_INFO }}"><span class="button_text">Войти</span></button>
               </form>
             </div>
             {% if form.non_field_errors %}
@@ -58,13 +58,13 @@
                 <input name={{ register_form.password2.name }} class="input" id="{{ register_form.password2.name }}" placeholder="Подтверждение пароля*" type="password">
                 <input name={{ register_form.birthday.name }} class="input birthday" id="{{ register_form.birthday.name }}" placeholder="День рождения" type="date">
                 <input name={{ register_form.email.name }} class="input" id="{{ register_form.email.name }}" placeholder="Email" type="email">
-                <input name={{ register_form.telephon.name }} class="input" id="{{ register_form.telephon.name }}" placeholder="Телефон" type="tel">
+                <input name={{ register_form.telephon.name }} class="input" id="{{ register_form.telephon.name }}" placeholder="Телефон*" type="tel">
                 <p class="auth-help">Телефон необходим что бы в случае чаго староста мог с вами связаться</p>
                 <div class="contract">
                   <input type="checkbox" name="" class="input" id="approval">
-                  <a>Соглашение</a>
+                  <a>Регистрируясь на сайте, Вы даете согласие на обработку своих персональных данных. Внимание, ваши данные ни под каким предлогам не будут переданы третьем лицам</a>
                 </div>
-                <div id="register" type="submit" class="button register_btn">Регистрация</div>
+                <div title="" id="register" class="button_control button_activ"><span class="button_text">Регистрация</span></div>
               </form>
             </div>
           </div>

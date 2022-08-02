@@ -1,6 +1,8 @@
 from datetime import date, datetime
 import sqlite3
+import pandas as pd
 
+conn = sqlite3.connect(r'D:\tolgobol\TolgobolVillage\TolgobolVillage.sqlite3')
 
 a = { 
      "Успенская": [
@@ -314,7 +316,7 @@ di = {
       "11": [],
       "12": ['1', '2'],
       "13": [],
-      "14": [],
+      "14": ['1', '2'],
       "15": [],
       "15а": [],
       "16": [],
@@ -509,16 +511,14 @@ def xl():
          return str(st)
       except:
          return 
-   import pandas as pd
-   import sqlite3
    conn = sqlite3.connect(r'D:\tolgobol\TolgobolVillage\TolgobolVillage.sqlite3')
    cur = conn.cursor()
-   excel_data = pd.read_excel(r'C:\Users\Evgen\Downloads\Копия Толгоболь .xlsx')
+   excel_data = pd.read_excel(r'C:\Users\Evgen\Downloads\fond.xlsx')
    data = pd.DataFrame(excel_data)
    com = "Фонд поселка необходим для благоустройства и развития. Из фонда поселка деньги берутся на совместные проекты с администрацие, такие как установка фонарей или ремонт дренажной канавы. Так же из фонда берутся деньги на ямочный ремонт дороги"
    insert_collect = f'INSERT INTO MainService_collectmoney (title, comment, on_months, need_summ_on_user, need_total_summ) VALUES ("Фонд поселка", "{com}", 1, 300, 0 )'
-   cur.execute(insert_collect)
-   conn.commit()
+   #cur.execute(insert_collect)
+   #conn.commit()
 
    for i, row in data.iterrows(): 
       strit_str = row[0].split(' ')
@@ -542,6 +542,7 @@ def xl():
          else:
             
             sql_adr = f'SELECT id FROM AuthService_adres WHERE strit_id = {strit_id} AND hous = "{hous}"'
+         print(sql_adr)
          adres_id = cur.execute(sql_adr).fetchone()[0]
          if isinstance(user_last_name, str):
             sql_str = f'INSERT INTO MainService_collectmoneymonth (month, maney, adres_id, collect_id, user_last_name, strit_id) VALUES' \
@@ -630,10 +631,40 @@ def vvod():
    conn.commit()
 
 
-
+def prava():
+   import re
+   conn = sqlite3.connect(r'D:\tolgobol\TolgobolVillage\TolgobolVillage.sqlite3')
+   cur = conn.cursor()
+   excel_data = pd.read_excel(r'D:\rashod.xlsx')
+   data = pd.DataFrame(excel_data)
+   for i, row in data.iterrows():
+      title = row[0]
+      cum = int(row[1])
+      dat = re.search( '^(\d\d\.\d\d) ', title )
+      if dat:
+         dat = dat.group()
+         title = title.replace( dat, '' )
+         dat = dat[:-1] +'-22'
+         dat = dat.replace('.', '-')
+      if not dat:
+         dat = re.search( '^(\d\d\.\d\d\.\d\d)', title )
+         if dat:
+            dat = dat.group()
+            title = title.replace( dat, '' )
+            dat = dat.replace('.', '-')
+      if dat:
+         d = dat.split('-')
+         dat = date(year=int('20'+d[2]), month=int(d[1]), day=int(d[0]))
+         sql_str = f'INSERT INTO MainService_financecharge (title, comment, data, charge, collect_id) VALUES ( "{title}", "", "{dat}", {cum}, 1 )'
+      else:
+         sql_str = f'INSERT INTO MainService_financecharge (title, comment, charge, collect_id) VALUES ( "{title}", "", {cum}, 1 )'
+      cur.execute( sql_str )
+   conn.commit()
+   
 # sql()
-# xl()
-vvod()
+xl()
+# vvod()
+#prava()
 
    
 

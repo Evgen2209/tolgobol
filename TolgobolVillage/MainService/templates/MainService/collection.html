@@ -59,8 +59,8 @@
             <div class='collect_options'>
               <span class="filter arrows" id='filter_btn'>Подробнее</span>
               {% if user.is_authenticated %}
-                {% if user.is_starosta %}
-                  <button class='insert_collect_btn' id="{{ collect.id }}" months={{ collect.on_months }}>Добавить взнос</button>
+                {% if user.is_fond_manager %}
+                  <div title="" class="button_control button_simple insert_collect_btn" id="{{ collect.id }}" months={{ collect.on_months }}><span class="button_text">Добавить взнос</span></div>
                 {% endif %}
               {% endif %}
             </div>
@@ -99,9 +99,7 @@
             <div class="block-title">
               {{ change.title }}
             </div>
-            <div class="block-text">
-              {{ change.comment }}
-            </div>
+            <div class="block-text">{{ change.comment }}</div>
             <div class="block-content">
               <div class="block-content-item">
                 <div class="content-item-key">Потрачено:</div>

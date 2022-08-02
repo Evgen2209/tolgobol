@@ -4,6 +4,7 @@
 
 .linc-password {
   margin: 10px;
+  display: block;
 }
 
 
@@ -62,4 +63,8 @@
 .red_border {
   border: 1px solid #ff000078;
   border-radius: 15px;
+}
+
+#login_btn {
+  margin-left: 10px;
 }

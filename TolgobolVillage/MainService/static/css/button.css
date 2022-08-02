@@ -75,7 +75,7 @@ h1, h2, h3, h4, h5, h6 {
 
 
 /* Базовый набор кнопки  */
-/* <div title="" class="button_control button_simple"><span class="button_text">Настроить</span></div> */
+/* <div title="" class="button_control button_activ"><span class="button_text">Настроить</span></div> */
 .button_control {
   min-height: 24px;
   border-radius: 100px;

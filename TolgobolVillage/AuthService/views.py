@@ -16,6 +16,7 @@ from django.contrib.auth import authenticate, login
 from .utils import *
 import uuid
 from django.contrib.auth.mixins import LoginRequiredMixin
+from MainService.logger import *
 
 class AuthLoginView( DataMixin, LoginView ):
     
@@ -25,6 +26,7 @@ class AuthLoginView( DataMixin, LoginView ):
     success_url = reverse_lazy('home')
     redirect_authenticated_user = True
 
+    @logger
     def get_context_data( self, *, object_list=None, **kwargs ):
         result = {}
         context = super().get_context_data(**kwargs)
@@ -44,6 +46,7 @@ class AuthRgisterView( DataMixin, CreateView ):
     template_name = 'auth.html'
     success_url = 'home'
 
+    @logger
     def get_context_data( self, *, object_list=None, **kwargs ):
         result = {}
         context = super().get_context_data(**kwargs)
@@ -129,6 +132,7 @@ class AccountPage( LoginRequiredMixin, DataMixin, TemplateView ):
     #model = Product
     title = _("Личный кабинет")
 
+    @logger
     def get_context_data( self, *, object_list=None, **kwargs ):
         c_super = super().get_context_data(**kwargs)
         c_def = self.get_user_context()
@@ -172,6 +176,7 @@ class AuthService( View ):
             handler = self.http_method_not_allowed
         return handler(request, *args, **kwargs)
     
+    @logger
     def change_user_data( self, request, *args, **kwargs ):
         post = request.POST
         post_param = {}
@@ -232,6 +237,7 @@ class AuthService( View ):
         response['adres'] = bauf
         return JsonResponse(response)
 
+    @logger
     def register( self, request ):
         invite = self.request.POST.get( 'invite', None )
         users = User.objects.filter( adres_id=self.request.POST['adres'] )
@@ -280,6 +286,7 @@ class AuthService( View ):
                 res = { 'errors': {'adres': 'Адрес не существует'} }
         return res
     
+    @logger
     def get_strit( self, respons ):
         result = {}
         strits = []

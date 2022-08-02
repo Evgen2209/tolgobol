@@ -22,6 +22,7 @@ class Voting( models.Model ):
     comment = models.CharField( _('Комментарий'), max_length=10000, blank=True, unique=False )
     finish_data = models.DateField( _('Окончание голосования'), blank=True, null=True )
     is_finish = models.BooleanField( _('Голосование закончилось'), blank=False, default=False )
+    is_non_auth = models.BooleanField( _('Голосование без регистрации'), blank=False, default=False )
     
 class VotingItem( models.Model ):
     voting = models.ForeignKey(Voting, on_delete = models.CASCADE)
@@ -31,6 +32,13 @@ class VotingItemUser( models.Model ):
     voting = models.ForeignKey( Voting, on_delete = models.CASCADE )
     votingitem = models.ForeignKey( VotingItem, on_delete = models.CASCADE )
     user = models.ForeignKey( User, on_delete = models.CASCADE )
+    comment = models.CharField( _('Комментарий'), max_length=10000, blank=True, unique=False )
+    data = models.DateField( _('Дата голосования'), blank=True, null=True )
+
+class VotingItemUserNonAuth( models.Model ):
+    voting = models.ForeignKey( Voting, on_delete = models.CASCADE )
+    votingitem = models.ForeignKey( VotingItem, on_delete = models.CASCADE )
+    csrf = models.CharField( _('csrftoken'), max_length=10000, blank=False, unique=False )
     comment = models.CharField( _('Комментарий'), max_length=10000, blank=True, unique=False )
     data = models.DateField( _('Дата голосования'), blank=True, null=True )
     

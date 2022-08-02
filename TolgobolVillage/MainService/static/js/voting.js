@@ -13,7 +13,9 @@ function getCookie(name) {
   }
   return cookieValue;
 }
-
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 var buttons = document.getElementsByClassName("voting_send");
 var i;
@@ -81,6 +83,7 @@ for (i = 0; i < buttons.length; i++)
             {
               create_modal( data.success );
               btn.disabled = true;
+              sleep(2000).then(() => { window.location.reload(); });
             }
           },
           error: function(er) {

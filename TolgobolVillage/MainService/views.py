@@ -1,4 +1,5 @@
 import time
+from urllib import request
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, TemplateView, View
@@ -14,22 +15,6 @@ import logging
 from django.urls.base import reverse_lazy
 from .logger import *
 
-# def str_wrap( *args ):
-#     st = ''
-#     for i in args:
-#         st += str(i)+' '
-#         return st
-    
-# def log( *args ):
-#     logger.info( str_wrap( *args ) )
-# def error( *args ):
-#     logger.error( str_wrap( *args ) )
-# def warning( *args ):
-#     logger.warning( str_wrap( *args ) )
-# def exception( *args ):
-#     logger.exception( str_wrap( *args ) )
-# def debug( *args ):
-#     logger.debug( str_wrap( *args ) )
     
 class HomePage( DataMixin, TemplateView ):
     #form = ProductForm
@@ -50,7 +35,6 @@ class HomePage( DataMixin, TemplateView ):
     def get_news_context( self ):
         result = []
         news = Section.objects.filter(is_news=True)
-        INFO('TEST')
         if news.count():
             for i in news[0].post_set.filter(is_delet=False):
                 item = {}
@@ -68,6 +52,7 @@ class ImportantPage( DataMixin, TemplateView ):
     model = AnyContact
     title = _("Поселок Толгоболь / Важное / Контакты")
 
+    @logger
     def get_context_data( self, *, object_list=None, **kwargs ):
         c_super = super().get_context_data(**kwargs)
         c_def = self.get_user_context()
@@ -96,27 +81,54 @@ class ImportantPage( DataMixin, TemplateView ):
         result = []
         votings = Voting.objects.all()
         for voting in votings:
-            total_count = voting.votingitemuser_set.count()
-            persent = total_count / 100
             item = {}
-            if self.request.user.is_authenticated:
-                if voting.votingitemuser_set.all().filter(user_id=self.request.user.id).count():
+            if voting.is_non_auth:
+                if self.request.user.is_authenticated:
+                    if voting.votingitemusernonauth_set.all().filter(csrf=str(self.request.user.id)).count():
+                        item['is_disabled'] = 'disabled'
+                else:
+                    csrf = self.request.COOKIES.get( 'csrftoken', None )
+                    if voting.votingitemusernonauth_set.all().filter(csrf=csrf).count():
+                        item['is_disabled'] = 'disabled'
+                if voting.is_finish:
                     item['is_disabled'] = 'disabled'
-            if voting.is_finish:
-                item['is_disabled'] = 'disabled'
-            if voting.finish_data is not None:
-                if voting.finish_data < timezone.now().date():
+                if voting.finish_data is not None:
+                    if voting.finish_data < timezone.now().date():
+                        item['is_disabled'] = 'disabled'
+                item['id'] = voting.id
+                item['is_non_auth'] = voting.is_non_auth
+                item['title'] = voting.title
+                item['comment'] = voting.comment
+                item['finish_data'] = voting.finish_data if voting.finish_data else 'Без срока'
+                total_count = voting.votingitemusernonauth_set.count()
+                persent = total_count / 100
+                item['voting_items'] = [ dict( [( 'name', i.name ), 
+                                                ( 'id', i.id ), 
+                                                ( 'voting_persent', int(i.votingitemusernonauth_set.count() / persent) if persent > 0 else 0 ), 
+                                                ( 'voting_piople', i.votingitemusernonauth_set.count() ) ] 
+                                            ) for i in voting.votingitem_set.all() ]
+            else:
+                if self.request.user.is_authenticated:
+                    if voting.votingitemuser_set.all().filter(user_id=self.request.user.id).count():
+                        item['is_disabled'] = 'disabled'
+                if voting.is_finish:
                     item['is_disabled'] = 'disabled'
-            item['id'] = voting.id
-            item['title'] = voting.title
-            item['comment'] = voting.comment
-            item['finish_data'] = voting.finish_data if voting.finish_data else 'Без срока'
+                if voting.finish_data is not None:
+                    if voting.finish_data < timezone.now().date():
+                        item['is_disabled'] = 'disabled'
+                item['id'] = voting.id
+                item['is_non_auth'] = voting.is_non_auth
+                item['title'] = voting.title
+                item['comment'] = voting.comment
+                item['finish_data'] = voting.finish_data if voting.finish_data else 'Без срока'
+                total_count = voting.votingitemuser_set.count()
+                persent = total_count / 100
+                item['voting_items'] = [ dict( [( 'name', i.name ), 
+                                                ( 'id', i.id ), 
+                                                ( 'voting_persent', int(i.votingitemuser_set.count() / persent) if persent > 0 else 0 ), 
+                                                ( 'voting_piople', i.votingitemuser_set.count() ) ] 
+                                            ) for i in voting.votingitem_set.all() ]
             item['total_count'] = total_count
-            item['voting_items'] = [ dict( [( 'name', i.name ), 
-                                            ( 'id', i.id ), 
-                                            ( 'voting_persent', int(i.votingitemuser_set.count() / persent) if persent > 0 else 0 ), 
-                                            ( 'voting_piople', i.votingitemuser_set.count() ) ] 
-                                          ) for i in voting.votingitem_set.all() ]
             result.append( item )
         return result
 
@@ -126,6 +138,7 @@ class CollectionPage( DataMixin, TemplateView ):
     #model = Product
     title = _("Поселок Толгоболь / Важное / Голосования")
 
+    @logger
     def get_context_data( self, *, object_list=None, **kwargs ):
         c_super = super().get_context_data(**kwargs)
         c_def = self.get_user_context()
@@ -200,21 +213,46 @@ class Mainservice( View ):
         else:
             handler = self.http_method_not_allowed
         return handler(request, *args, **kwargs)
-
+    
+    @logger
     def voting( self, reqest, *args, **kwargs ):
+        respons = {}
+        voting_id = reqest.POST['voting_id']
+        voting = Voting.objects.get(id=voting_id)
+        if voting.is_non_auth:
+            return self.voting_non_auth( reqest, voting )
+        
+        voting_item_id = reqest.POST['voting_item_id']
+        comment = reqest.POST['comment']
+        if reqest.user.is_authenticated:
+            user_id = reqest.user.id
+            if not voting.votingitemuser_set.all().filter(user_id=user_id).count():
+                VotingItemUser.objects.create( user_id=user_id, voting_id=voting_id, votingitem_id=voting_item_id, comment=comment, data=timezone.now() )
+                respons['success'] = 'Ваш голос учтен'
+            else:
+                respons['error'] = 'Вы уже проголосовали'
+            return JsonResponse( respons )
+        else:
+            respons['error'] = 'Авторизуйтесь'
+            return JsonResponse( respons )
+    
+    def voting_non_auth( self, reqest, voting ):
         respons = {}
         voting_id = reqest.POST['voting_id']
         voting_item_id = reqest.POST['voting_item_id']
         comment = reqest.POST['comment']
-        user_id = reqest.user.id
-        voting = Voting.objects.get(id=voting_id)
-        if not voting.votingitemuser_set.all().filter(user_id=user_id).count():
-            VotingItemUser.objects.create( user_id=user_id, voting_id=voting_id, votingitem_id=voting_item_id, comment=comment, data=datetime.now() )
+        csrf = reqest.COOKIES.get( 'csrftoken', None )
+        if not voting.votingitemusernonauth_set.all().filter(csrf=csrf).count():
+            if reqest.user.is_authenticated:
+                VotingItemUserNonAuth.objects.create( csrf=str( reqest.user.id ), voting_id=voting_id, votingitem_id=voting_item_id, comment=comment, data=timezone.now() )
+            else:
+                VotingItemUserNonAuth.objects.create( csrf=csrf, voting_id=voting_id, votingitem_id=voting_item_id, comment=comment, data=timezone.now() )
             respons['success'] = 'Ваш голос учтен'
         else:
             respons['error'] = 'Вы уже проголосовали'
         return JsonResponse( respons )
     
+    @logger
     def feedback_adres( self, respons ):
         param = {}
         for i in respons.POST:
@@ -222,46 +260,47 @@ class Mainservice( View ):
         FeedbackAdres.objects.create(**param)
         return JsonResponse({})
     
+    @logger
     def insert_collect_on_months( self, respons ):
-        errors = []
         collect_id = respons.POST.get( 'collect_id', None)
         adres_id = respons.POST.get( 'adres_id', None)
         insert_list = respons.POST.get( 'insert_list', None)
-        
+        log = {'collect_id':collect_id,'adres_id': adres_id, 'insert_list':insert_list  }
+        INFO( '[insert_collect_on_months] ', log )
         if insert_list:
             insert_list = json.loads( insert_list )
             
         if not adres_id:
-            errors.append(['Не указан адрес', respons.POST ])
+            return JsonResponse( {'error': 'Не указан адрес, обратитесь к администратору'}, status=500 )
         if not adres_id.isdigit():
-            errors.append(['адрес не является числом', respons.POST ])
+            return JsonResponse( {'error': 'адрес не является числом, обратитесь к администратору'}, status=500 )
         else:
             adres_id = int(adres_id)
 
         if not collect_id:
-            errors.append(['Не указан collect_id', respons.POST ])
+            return JsonResponse( {'error': 'Не указан collect_id, обратитесь к администратору'}, status=500 )
         if not collect_id.isdigit():
-            errors.append(['collect_id не является числом', respons.POST ])
+            return JsonResponse( {'error': 'collect_id не является числом, обратитесь к администратору'}, status=500 )
         else:
             collect_id = int(collect_id)
-        if errors:
-            return JsonResponse( {'error': errors}, status=500 )
         try:
-            collect = CollectMoney.objects.get(id=int(collect_id))
             adres = Adres.objects.get( id=int(adres_id) )
             for i in insert_list:
-                monyh = i['months']
+                months = i['months']
                 summ = i['summ']
                 year = i['year']
-                if not monyh.isdigit():
-                    return JsonResponse( {'error': 'monyh не является числом'}, status=500 )
+                if not months.isdigit():
+                    return JsonResponse( {'error': 'months не является числом, обратитесь к администратору'}, status=500 )
                 if not summ.isdigit():
-                    return JsonResponse( {'error': 'summ не является числом'}, status=500 )
+                    return JsonResponse( {'error': 'summ не является числом, обратитесь к администратору'}, status=500 )
                 if not year.isdigit():
-                    return JsonResponse( {'error': 'year не является числом'}, status=500 )
-                date_insert = datetime(int(year), int(monyh), 1)
-                CollectMoneyMonth.objects.create(collect=collect, adres=adres, strit=adres.strit, month=date_insert, maney=summ)
-        except:
+                    return JsonResponse( {'error': 'year не является числом, обратитесь к администратору'}, status=500 )
+                date_insert = datetime(int(year), int(months), 1)
+                el = CollectMoneyMonth.objects.create(collect_id=collect_id, adres=adres, strit=adres.strit, month=date_insert, maney=summ)
+                if not el:
+                    return JsonResponse( {'error': 'Данные не внесены, обратитесь к администратору'}, status=500 )
+        except Exception as e:
+            EXCEPT( e )
             return JsonResponse( {'error': ['Не верные параметры, переданы параметры', respons.POST]}, status=500 )
         return JsonResponse({})
     
@@ -288,6 +327,7 @@ class UploadServise( View ):
             handler = self.http_method_not_allowed
         return handler(request, *args, **kwargs)    
     
+    @logger
     def start_upload( self, request ):
         if not request.user.is_authenticated:
             return JsonResponse({'error':'Авторизуйтесь'}, status=500)
@@ -305,6 +345,7 @@ class UploadServise( View ):
             return JsonResponse({'error':'Ошибка при сохранении файла'}, status=500)
         return JsonResponse({'success':tmp_name})
     
+    @logger
     def upload( self, request ):
         strim = request.FILES.get( 'file', None )
         tmp_name= request.POST.get( 'tmp_name', None )
@@ -319,6 +360,7 @@ class UploadServise( View ):
         except:
             return JsonResponse({'error':'Ошибка при частичном сохранении файла'}, status=500)
     
+    @logger
     def finish_upload( self, request ):
         tmp_name= request.POST.get( 'tmp_name', None )
         error = []
@@ -332,7 +374,7 @@ class UploadServise( View ):
         except:
             return JsonResponse({'error':'Ошибка при частичном сохранении файла'}, status=500)
     
-    
+    @logger
     def cancel_upload( self, request ):
         tmp_name= request.POST.get( 'tmp_name', None )
         error = []
