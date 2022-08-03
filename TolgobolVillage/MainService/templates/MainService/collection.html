@@ -56,11 +56,13 @@
               <a href="{{ url }}" class="document-name collect_docements" download>{{ name }}</a>
               {% endfor %}
             </div>
+            <div title="" class="button_control button_simple create_excel" id="{{ collect.id }}" months={{ collect.on_months }}><span class="button_text">Сформировать Excel</span></div>
             <div class='collect_options'>
               <span class="filter arrows" id='filter_btn'>Подробнее</span>
               {% if user.is_authenticated %}
                 {% if user.is_fond_manager %}
-                  <div title="" class="button_control button_simple insert_collect_btn" id="{{ collect.id }}" months={{ collect.on_months }}><span class="button_text">Добавить взнос</span></div>
+                {% csrf_token %}
+                <div title="" class="button_control button_simple insert_collect_btn" id="{{ collect.id }}" months={{ collect.on_months }}><span class="button_text">Добавить взнос</span></div>
                 {% endif %}
               {% endif %}
             </div>
