@@ -16,6 +16,26 @@ class TmpFileStorage:
     file_rut = os.path.join( settings.MEDIA_ROOT, 'tmp' )
     
     @classmethod
+    def get_tmp_folder( cls, user_id ):
+        
+        date_start = timezone.now()
+        folder_tmp = date_start.strftime( '%d-%m-%Y' )
+        
+        return os.path.join( cls.file_rut, folder_tmp, str(user_id) )
+    
+    @classmethod
+    def save_file( cls, path ):
+        name = os.path.basename( path )
+        date = timezone.now()
+        fil = cls.storage.objects.create( file_name=name,
+                                    tmp_name=name,
+                                    tmp_path=str(path),
+                                    size=os.path.getsize(path), 
+                                    date_start=date, 
+                                    date_finish=date )
+        return os.path.relpath( path, settings.MEDIA_ROOT )
+    
+    @classmethod
     def start_upload( cls, file_name, size, user ):
         uid = str(uuid.uuid4())
         tmp_file_name = uid + get_file_ext( file_name ) 

@@ -1,5 +1,6 @@
 import logging, os
 from TolgobolVillage import settings
+from django.core.handlers.wsgi import WSGIRequest
 class Logger( object ):
     
     def __init__( self ):
@@ -30,7 +31,6 @@ class Logger( object ):
     #     return logging.INFO
     
     def Log( self, log_level, *args, **kwargs ):
-        print(log_level, 'log_level')
         msg = self._get_msg( *args )
         logging.log( log_level, msg, **kwargs )
     
@@ -40,7 +40,6 @@ class Logger( object ):
         for i in arg:
             msg += str(i) + ' '
         return msg
-
 
 
 def INFO( *massage ):
@@ -92,13 +91,38 @@ import traceback
 
 
 def logger( func, *args, **kwargs ):
+    def get_user_args( args ):
+        for i in args:
+            if isinstance( i, WSGIRequest ):
+                user = i.user
+                if user.is_authenticated:
+                    return f' [ user_id ] "{user.id}", {user.first_name} {user.last_name}, [ adres_id ] "{user.adres_id}" '
+        else:
+            if len( args ):
+                h = args[0]
+                if hasattr( h, 'request' ):
+                    request = getattr( h, 'request' )
+                    user = request.user
+                    if user.is_authenticated:
+                        return f' [ user_id ] "{user.id}", {user.first_name} {user.last_name}, [adres_id] "{user.adres_id}" '
+        return ' [ user_id ] None '
     
+    def get_user_kwargs( res ):
+        view = res.get( 'view', None )
+        if view:
+            if hasattr( view, 'request' ):
+                
+                request = getattr( view, 'request' )
+                user = request.user
+                if user.is_authenticated:
+                    return f' [ user_id ] "{user.id}", {user.first_name} {user.last_name}, [adres_id] "{user.adres_id}" '
+        return ' [ user_id ] None '
+            
+            
     def wrap( *args, **kwargs ):
-        Logger().Log( logging.INFO, func.__name__, '[pd][start]', args, kwargs)
-        stack = traceback.extract_stack()
-        #log([i for i in stack[-2]],stack[-2][-1], stack[1][2])
+        Logger().Log( logging.INFO, func.__name__, '[pd][start]', get_user_args(args), args, kwargs)
         res = func( *args, **kwargs )
-        Logger().Log( logging.INFO, func.__name__, '[pd][finish]', res)
+        Logger().Log( logging.INFO, func.__name__, '[pd][finish]', get_user_kwargs(res), res)
         return res
         
     return wrap

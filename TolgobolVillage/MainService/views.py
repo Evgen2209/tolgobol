@@ -1,3 +1,4 @@
+from django.views.decorators.csrf import ensure_csrf_cookie
 import time
 from urllib import request
 from django.http import JsonResponse
@@ -14,7 +15,8 @@ from Forum.models import *
 import logging
 from django.urls.base import reverse_lazy
 from .logger import *
-
+import pandas as pd
+from django.views.static import serve
     
 class HomePage( DataMixin, TemplateView ):
     #form = ProductForm
@@ -200,6 +202,7 @@ class Mainservice( View ):
         'MainService.Voting': 'voting',
         'MainService.FeedbackAdres': 'feedback_adres',
         'MainService.InsertCollectOnMonths': 'insert_collect_on_months',
+        'MainService.GetExcelCollect': 'get_excel_collect',
     }
     
     def dispatch(self, request, *args, **kwargs):
@@ -304,7 +307,41 @@ class Mainservice( View ):
             return JsonResponse( {'error': ['Не верные параметры, переданы параметры', respons.POST]}, status=500 )
         return JsonResponse({})
     
-    
+    def get_excel_collect( self, reqest ):
+        collect_id = reqest.POST.get( 'collect_id', None)
+        if not collect_id:
+            return JsonResponse( {'error': 'Не указан collect_id'}, status=500 )
+        collect = CollectMoney.objects.get( id=int(collect_id) )
+        if collect.on_months:
+            data = {}
+            collect_money = collect.collectmoneymonth_set.all()
+            adres_set = collect_money.values('adres')
+            adres_set = set( [ i['adres'] for i in adres_set ] )
+            moynth_set = collect_money.values('month')
+            moynth_set = list( set( [ i['month'] for i in moynth_set ] ) )
+            adres_column = {}
+            for i in adres_set:
+                adr = Adres.objects.get(id=i)
+                adres_column[( str(adr) )] = adr
+            data['Адрес'] = adres_column.keys()
+            moynth_set.sort()
+            for month in moynth_set:
+                month_column = []
+                for ad in adres_column.values():
+                    sum = collect_money.filter(month=month, adres_id=ad.id )
+                    if sum:
+                        month_column.append(sum[0].maney)
+                    else:
+                        month_column.append(0)
+                data[month] = month_column
+            df = pd.DataFrame( data )
+            file_path = os.path.join( TmpFileStorage.get_tmp_folder(reqest.user.id), f'{collect.title}.xlsx')
+            writer = pd.ExcelWriter( file_path ) 
+            df.to_excel(writer)
+            writer.save()
+            path = TmpFileStorage.save_file( file_path )
+            return JsonResponse( {'url': reverse_lazy('media', kwargs={ 'path':path })}, status=200 )
+
     
 class UploadServise( View ):
         

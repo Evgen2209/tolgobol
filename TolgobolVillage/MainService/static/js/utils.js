@@ -33,6 +33,7 @@ function send_ajax( url, data, method_name, func_success )
         success: func_success,
         error: function(er)
         {
+            console.log( er );
             if( er.responseJSON.error )
             {
                 var p = document.createElement("p");

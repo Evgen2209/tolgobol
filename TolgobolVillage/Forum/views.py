@@ -151,7 +151,7 @@ class ForumService( View ):
     def dispatch(self, request, *args, **kwargs):
         service_method = request.headers.get( 'X-Requested-MethodName', None ) 
         handler_name = self.mainservice_method_alias.get( service_method, None )
-        log( service_method, request.POST )
+        INFO( service_method, request.POST )
         if handler_name:
             handler = getattr(
                 self, handler_name, self.http_method_not_allowed
@@ -198,7 +198,7 @@ class ForumService( View ):
                     f = FileTmp.objects.get( id=int(i) )
                     MessageFile.objects.create( message=m, path=self.copy_file(f, m.id) )
         except Exception as e:
-            exception(e)
+            EXCEPT(e)
             return JsonResponse( {"error": e}, status=500 )
         result['success'] = 'Сообщение сохранено'
         return JsonResponse( result )

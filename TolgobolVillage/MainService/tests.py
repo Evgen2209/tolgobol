@@ -662,11 +662,8 @@ def prava():
    conn.commit()
    
 # sql()
-xl()
+#xl()
 # vvod()
 #prava()
 
    
-
-
-

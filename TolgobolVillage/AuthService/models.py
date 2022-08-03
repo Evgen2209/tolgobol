@@ -16,6 +16,8 @@ class Adres( models.Model ):
     def get_adres( self ):
         kv = '/'+self.kv if self.kv else ''
         return self.hous + kv
+    def __str__(self ):
+        return f'{self.strit.strit_name} {self.hous}' + ('' if not self.kv else f'/{self.kv}')
 
 class User( AbstractUser ):
     user_id = models.UUIDField( default=uuid.uuid4, editable=False, unique=True )

@@ -52,6 +52,17 @@ function collect_btn_on()
     console.log( this.getAttribute('months'),22222222 )
 }
 
+function create_excel()
+{
+    data = {
+        collect_id: this.getAttribute('id')
+    }
+    send_ajax( '/mainservise/', data, 'MainService.GetExcelCollect', function(data){
+        document.location.href = data.url
+    } )
+
+}
+
 function init_collect_btn()
 {
     btns = document.getElementsByClassName( 'insert_collect_btn' )
@@ -68,6 +79,11 @@ function init_collect_btn()
             item.onclick = collect_btn_on
             
         }
+    }
+    btns = document.getElementsByClassName( 'create_excel' )
+    for( let item of btns )
+    {
+        item.onclick = create_excel
     }
 }
 
